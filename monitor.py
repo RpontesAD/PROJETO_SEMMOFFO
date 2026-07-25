@@ -187,6 +187,7 @@ def verificar_arquivo(caminho):
     if not arquivo.exists():
         return {
             "existe": False,
+            "caminho": str(arquivo),
             "data_modificacao": None
         }
 
@@ -196,40 +197,8 @@ def verificar_arquivo(caminho):
 
     return {
         "existe": True,
+        "caminho": str(arquivo),
         "data_modificacao": data
-    }
-    
-def ultimo_arquivo(pasta):
-
-    pasta = Path(pasta)
-
-    if not pasta.exists():
-        return None
-
-
-    arquivos = [
-        arquivo
-        for arquivo in pasta.iterdir()
-        if arquivo.is_file()
-    ]
-
-
-    if not arquivos:
-        return None
-
-
-    arquivo_recente = max(
-        arquivos,
-        key=lambda arquivo: arquivo.stat().st_mtime
-    )
-
-
-    return {
-        "nome": arquivo_recente.name,
-        "caminho": str(arquivo_recente),
-        "data_modificacao": datetime.fromtimestamp(
-            arquivo_recente.stat().st_mtime
-        )
     }
 
 def verificar_status(data_modificacao, ultimo_prazo):
@@ -294,15 +263,23 @@ def verificar_rotina(id_rotina):
         ) = monitoramento
 
 
-        caminho = Path(
-            pasta,
-            arquivo
-        )
+        if tipo == "ARQUIVO_ALVO":
+
+            caminho = Path(
+                pasta,
+                arquivo
+            )
+
+            info = verificar_arquivo(caminho)
+
+            nome_arquivo = arquivo
 
 
-        info = verificar_arquivo(
-            caminho
-        )
+        elif tipo == "ULTIMO_ARQUIVO":
+
+            info = buscar_ultimo_arquivo(pasta)
+
+            nome_arquivo = info["arquivo"]
 
 
         if not info["existe"]:
@@ -318,10 +295,53 @@ def verificar_rotina(id_rotina):
 
 
         resultado["arquivos"].append({
-            "arquivo": arquivo,
+            "tipo": tipo,
+            "arquivo": nome_arquivo,
+            "caminho": info.get("caminho"),
             "data_modificacao": info["data_modificacao"],
             "status": status
+
         })
 
 
     return resultado
+
+def buscar_ultimo_arquivo(pasta):
+
+    pasta = Path(pasta)
+
+    if not pasta.exists() or not pasta.is_dir():
+        return {
+            "existe": False,
+            "arquivo": None,
+            "caminho": None,
+            "data_modificacao": None
+        }
+
+    arquivos = [
+        arquivo
+        for arquivo in pasta.iterdir()
+        if arquivo.is_file()
+    ]
+
+    if not arquivos:
+        return {
+            "existe": False,
+            "arquivo": None,
+            "caminho": None,
+            "data_modificacao": None
+        }
+
+    arquivo_recente = max(
+        arquivos,
+        key=lambda arquivo: arquivo.stat().st_mtime
+    )
+
+    return {
+        "existe": True,
+        "arquivo": arquivo_recente.name,
+        "caminho": str(arquivo_recente),
+        "data_modificacao": datetime.fromtimestamp(
+            arquivo_recente.stat().st_mtime
+        )
+    }

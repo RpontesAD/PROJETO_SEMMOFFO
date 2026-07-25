@@ -41,7 +41,4 @@ def mostrar_monitoramentos(rotina_id):
 #print("Arquivo:", arquivo)
 #print("Status:", status)
 
-
-resultado = verificar_rotina(1)
-
-print(resultado)
+print(verificar_rotina(3))

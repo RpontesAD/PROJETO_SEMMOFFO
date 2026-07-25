@@ -152,8 +152,12 @@ def atualizar_rotina(
     id_rotina,
     nome,
     executavel,
-    periodicidade,
-    intervalo
+    periodo,
+    hora,
+    regra_dia=None,
+    dia_semana=None,
+    dia_mes=None,
+    ativo=1
 ):
 
     conexao = conectar()
@@ -165,15 +169,23 @@ def atualizar_rotina(
         SET
             nome = ?,
             executavel = ?,
-            periodicidade = ?,
-            intervalo = ?
+            periodo = ?,
+            hora = ?,
+            regra_dia = ?,
+            dia_semana = ?,
+            dia_mes = ?,
+            ativo = ?
 
         WHERE id = ?
     """, (
         nome,
         executavel,
-        periodicidade,
-        intervalo,
+        periodo,
+        hora,
+        regra_dia,
+        dia_semana,
+        dia_mes,
+        ativo,
         id_rotina
     ))
 

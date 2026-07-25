@@ -6,3 +6,6 @@ venv/
 .venv/
 __pycache__/
 *.pyc
+
+# base de rotinas local
+rotinas_prototipo
