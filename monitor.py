@@ -245,8 +245,13 @@ def verificar_rotina(id_rotina):
 
 
     resultado = {
+        "id": id,
         "nome": nome,
+        "executavel": executavel,
+        "periodicidade": periodo,
+        "hora": hora,
         "prazo": prazo,
+        "monitoramentos": len(monitoramentos),
         "arquivos": []
     }
 

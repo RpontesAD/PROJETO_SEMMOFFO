@@ -1,0 +1,457 @@
+    def salvar_rotina(self):
+
+        nome = self.nome_entry.get()
+
+        executavel = self.executavel_entry.get()
+
+        periodo = self.periodicidade_combo.get()
+
+        hora = self.hora_entry.get()
+
+
+        regra_dia = None
+        dia_semana = None
+        dia_mes = None
+
+
+
+        if periodo == "Semanal":
+
+            dia_semana = self.dia_semana_combo.get()
+
+
+
+        elif periodo == "Mensal":
+
+            regra = self.regra_combo.get()
+
+
+            if regra == "Primeiro dia útil":
+
+                regra_dia = "PRIMEIRO_DIA_UTIL"
+
+
+            elif regra == "Último dia útil":
+
+                regra_dia = "ULTIMO_DIA_UTIL"
+
+
+            elif regra == "Dia específico":
+
+                dia_mes = self.dia_mes_entry.get()
+
+
+
+        criar_rotina(
+            nome,
+            executavel,
+            periodo.upper(),
+            hora,
+            regra_dia,
+            dia_semana,
+            dia_mes
+        )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import customtkinter as ctk
+from database import criar_rotina
+from tkinter import filedialog
+
+
+class TelaCadastro(ctk.CTkFrame):
+
+    def __init__(self, parent, app):
+        super().__init__(parent)
+
+        self.app = app
+
+        self.criar_widgets()
+        
+    def selecionar_executavel(self):
+
+        caminho = filedialog.askopenfilename(
+            title="Selecione o executável",
+            filetypes=[
+                ("Executáveis", "*.exe"),
+                ("Todos os arquivos", "*.*")
+            ]
+        )
+
+
+        if caminho:
+
+            self.executavel_entry.delete(0, "end")
+
+            self.executavel_entry.insert(
+                0,
+                caminho
+            )
+
+
+    def criar_widgets(self):
+
+        self.grid_columnconfigure(0, weight=1)
+
+
+        titulo = ctk.CTkLabel(
+            self,
+            text="Nova Rotina",
+            font=("Arial", 24, "bold")
+        )
+
+        titulo.grid(
+            row=0,
+            column=0,
+            pady=20
+        )
+
+
+        # Nome
+
+        ctk.CTkLabel(
+            self,
+            text="Nome da rotina"
+        ).grid(
+            row=1,
+            column=0,
+            sticky="w",
+            padx=50
+        )
+
+
+        self.nome_entry = ctk.CTkEntry(
+            self,
+            width=300
+        )
+
+        self.nome_entry.grid(
+            row=2,
+            column=0,
+            pady=10
+        )
+
+
+        # Periodicidade
+
+        ctk.CTkLabel(
+            self,
+            text="Periodicidade"
+        ).grid(
+            row=3,
+            column=0,
+            sticky="w",
+            padx=50
+        )
+
+
+        self.periodicidade_combo = ctk.CTkComboBox(
+            self,
+            values=[
+                "Diário",
+                "Semanal",
+                "Mensal"
+            ],
+            width=300,
+            command=self.alterar_periodo
+        )
+
+        self.periodicidade_combo.grid(
+            row=4,
+            column=0,
+            pady=10
+        )
+
+
+        # Área dinâmica
+
+        self.frame_condicional = ctk.CTkFrame(
+            self,
+            fg_color="transparent"
+        )
+
+        self.frame_condicional.grid(
+            row=5,
+            column=0,
+            pady=10
+        )
+
+
+        self.criar_campos_condicionais()
+
+
+        # Horário
+
+        ctk.CTkLabel(
+            self,
+            text="Horário"
+        ).grid(
+            row=6,
+            column=0,
+            sticky="w",
+            padx=50
+        )
+
+
+        self.hora_entry = ctk.CTkEntry(
+            self,
+            width=300,
+            placeholder_text="08:00"
+        )
+
+        self.hora_entry.grid(
+            row=7,
+            column=0,
+            pady=10
+        )
+
+
+        # Executável
+
+        ctk.CTkLabel(
+            self,
+            text="Executável"
+        ).grid(
+            row=8,
+            column=0,
+            sticky="w",
+            padx=50
+        )
+
+
+        self.executavel_entry = ctk.CTkEntry(
+            self,
+            width=300
+        )
+
+        self.executavel_entry.grid(
+            row=9,
+            column=0,
+            pady=10
+        )
+
+
+        # Salvar
+
+        ctk.CTkButton(
+            self,
+            text="Salvar rotina",
+            command=self.salvar_rotina
+        ).grid(
+            row=10,
+            column=0,
+            pady=30
+        )
+        
+        self.alterar_periodo("Diário")
+
+    def criar_campos_condicionais(self):
+
+        ctk.CTkLabel(
+            self.frame_condicional,
+            text="Dia da semana"
+        ).grid(
+            row=0,
+            column=0,
+            sticky="w"
+        )
+
+
+        self.dia_semana_combo = ctk.CTkComboBox(
+            self.frame_condicional,
+            values=[
+                "Segunda",
+                "Terça",
+                "Quarta",
+                "Quinta",
+                "Sexta",
+                "Sábado",
+                "Domingo"
+            ],
+            width=300
+        )
+
+        self.dia_semana_combo.grid(
+            row=1,
+            column=0,
+            pady=5
+        )
+
+
+
+        ctk.CTkLabel(
+            self.frame_condicional,
+            text="Regra mensal"
+        ).grid(
+            row=2,
+            column=0,
+            sticky="w"
+        )
+
+
+        self.regra_combo = ctk.CTkComboBox(
+            self.frame_condicional,
+            values=[
+                "Primeiro dia útil",
+                "Último dia útil",
+                "Dia específico"
+            ],
+            width=300,
+            command=self.alterar_regra
+        )
+
+        self.regra_combo.grid(
+            row=3,
+            column=0,
+            pady=5
+        )
+
+
+
+        ctk.CTkLabel(
+            self.frame_condicional,
+            text="Dia do mês"
+        ).grid(
+            row=4,
+            column=0,
+            sticky="w"
+        )
+
+
+        self.dia_mes_entry = ctk.CTkEntry(
+            self.frame_condicional,
+            width=300,
+            placeholder_text="Ex: 25"
+        )
+
+        self.dia_mes_entry.grid(
+            row=5,
+            column=0,
+            pady=5
+        )
+        
+    def bloquear_campo(self, campo):
+
+        campo.configure(
+            state="disabled"
+        )
+
+
+    def liberar_campo(self, campo):
+
+        campo.configure(
+            state="normal"
+        )
+
+    def alterar_periodo(self, periodo):
+
+        # bloqueia tudo
+
+        self.bloquear_campo(self.dia_semana_combo)
+        self.bloquear_campo(self.regra_combo)
+        self.bloquear_campo(self.dia_mes_entry)
+
+
+
+        if periodo == "Semanal":
+
+            self.liberar_campo(
+                self.dia_semana_combo
+            )
+
+
+        elif periodo == "Mensal":
+
+            self.liberar_campo(
+                self.regra_combo
+            )
+
+    def alterar_regra(self, regra):
+
+        self.bloquear_campo(
+            self.dia_mes_entry
+        )
+
+
+        if regra == "Dia específico":
+
+            self.liberar_campo(
+                self.dia_mes_entry
+            )
+
+
+
+    def salvar_rotina(self):
+
+        nome = self.nome_entry.get()
+
+        executavel = self.executavel_entry.get()
+
+        periodo = self.periodicidade_combo.get()
+
+        hora = self.hora_entry.get()
+
+
+        regra_dia = None
+        dia_semana = None
+        dia_mes = None
+
+
+        if periodo == "Semanal":
+
+            dia_semana = self.dia_semana_combo.get()
+
+
+        elif periodo == "Mensal":
+
+            regra = self.regra_combo.get()
+
+
+            if regra == "Primeiro dia útil":
+
+                regra_dia = "PRIMEIRO_DIA_UTIL"
+
+
+            elif regra == "Último dia útil":
+
+                regra_dia = "ULTIMO_DIA_UTIL"
+
+
+            elif regra == "Dia específico":
+
+                dia_mes = self.dia_mes_entry.get()
+
+
+
+        nova_rotina = {
+            "nome": nome,
+            "executavel": executavel,
+            "periodo": periodo.upper(),
+            "hora": hora,
+            "regra_dia": regra_dia,
+            "dia_semana": dia_semana,
+            "dia_mes": dia_mes,
+            "ativo": 1
+        }
+
+
+        print(nova_rotina)
