@@ -9,7 +9,7 @@ class App(ctk.CTk):
         super().__init__()
         
         self.title("SEMMOFFO - Monitor de Rotinas")
-        self.geometry("1200x700")
+        self.geometry("700x700")
 
         self.container = ctk.CTkFrame(self)
         self.container.pack(

@@ -1,4 +1,7 @@
 import customtkinter as ctk
+from tkinter import messagebox
+import os
+import re
 from database import criar_rotina
 from tkinter import filedialog
 
@@ -154,7 +157,7 @@ class TelaCadastro(ctk.CTkFrame):
 
         ctk.CTkLabel(
             self,
-            text="Executável"
+            text="Executável (opcional)"
         ).grid(
             row=8,
             column=0,
@@ -189,6 +192,8 @@ class TelaCadastro(ctk.CTkFrame):
         botao_selecionar = ctk.CTkButton(
             frame_executavel,
             text="Selecionar",
+            fg_color="#555555",
+            hover_color="#444444",
             width=80,
             command=self.selecionar_executavel
         )
@@ -200,14 +205,35 @@ class TelaCadastro(ctk.CTkFrame):
 
         # Salvar
 
-        ctk.CTkButton(
+        frame_botoes = ctk.CTkFrame(
             self,
-            text="Salvar rotina",
-            command=self.salvar_rotina
-        ).grid(
+            fg_color="transparent"
+        )
+
+        frame_botoes.grid(
             row=10,
             column=0,
             pady=30
+        )
+
+        ctk.CTkButton(
+            frame_botoes,
+            text="← Voltar",
+            fg_color="gray40",
+            hover_color="gray30",
+            command=self.voltar
+        ).pack(
+            side="left",
+            padx=10
+        )
+
+        ctk.CTkButton(
+            frame_botoes,
+            text="Salvar rotina",
+            command=self.salvar_rotina
+        ).pack(
+            side="left",
+            padx=10
         )
         
         self.alterar_periodo("Diário")
@@ -347,9 +373,113 @@ class TelaCadastro(ctk.CTkFrame):
                 self.dia_mes_entry
             )
 
+    def voltar(self):
+        self.app.mostrar_tela_principal()
+
+    def destacar_erro(self, campo):
+        campo.configure(border_color="#E53935")
+
+
+    def limpar_erros(self):
+
+        cor_padrao = ("#979DA2", "#565B5E")  # borda padrão do CTk
+
+        campos = [
+            self.nome_entry,
+            self.hora_entry,
+            self.executavel_entry,
+            self.dia_semana_combo,
+            self.regra_combo,
+            self.dia_mes_entry
+        ]
+
+        for campo in campos:
+            campo.configure(border_color=cor_padrao)
+
+
+    def validar_campos(self):
+
+        self.limpar_erros()
+
+        nome = self.nome_entry.get().strip()
+        hora = self.hora_entry.get().strip()
+        executavel = self.executavel_entry.get().strip()
+        periodo = self.periodicidade_combo.get()
+
+        # Nome
+        if not nome:
+            self.destacar_erro(self.nome_entry)
+            self.nome_entry.focus()
+            return False
+
+        # Horário
+        if not hora:
+            self.destacar_erro(self.hora_entry)
+            self.hora_entry.focus()
+            return False
+
+        if not re.fullmatch(r"([01]\d|2[0-3]):([0-5]\d)", hora):
+            self.destacar_erro(self.hora_entry)
+            self.hora_entry.focus()
+            return False
+
+        # Executável
+        if executavel:
+
+            if not os.path.exists(executavel):
+                self.destacar_erro(self.executavel_entry)
+                self.executavel_entry.focus()
+                return False
+
+        # Semanal
+        if periodo == "Semanal":
+
+            if not self.dia_semana_combo.get():
+                self.destacar_erro(self.dia_semana_combo)
+                self.dia_semana_combo.focus()
+                return False
+
+        # Mensal
+        elif periodo == "Mensal":
+
+            regra = self.regra_combo.get()
+
+            if not regra:
+                self.destacar_erro(self.regra_combo)
+                self.regra_combo.focus()
+                return False
+
+            if regra == "Dia específico":
+
+                dia = self.dia_mes_entry.get().strip()
+
+                if not dia:
+                    self.destacar_erro(self.dia_mes_entry)
+                    self.dia_mes_entry.focus()
+                    return False
+
+                try:
+
+                    dia = int(dia)
+
+                except ValueError:
+
+                    self.destacar_erro(self.dia_mes_entry)
+                    self.dia_mes_entry.focus()
+                    return False
+
+                if dia < 1 or dia > 31:
+                    self.destacar_erro(self.dia_mes_entry)
+                    self.dia_mes_entry.focus()
+                    return False
+
+        return True
 
 
     def salvar_rotina(self):
+
+        if not self.validar_campos():
+            return
 
         nome = self.nome_entry.get()
 

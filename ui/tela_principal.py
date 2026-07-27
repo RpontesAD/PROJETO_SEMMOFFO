@@ -64,6 +64,8 @@ class TelaPrincipal(ctk.CTkFrame):
         botao_adicionar = ctk.CTkButton(
             topo,
             text="+ Nova Rotina",
+            fg_color="#856C00",
+            hover_color="#B19000",
             command=self.abrir_cadastro
         )
 
