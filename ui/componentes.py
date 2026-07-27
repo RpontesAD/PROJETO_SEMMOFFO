@@ -51,7 +51,20 @@ Arquivo: {nome_arquivo}
         botoes = ctk.CTkFrame(self)
         botoes.pack(anchor="e", padx=15, pady=10)
 
+        ctk.CTkButton(
+            botoes, text="Atualizar",
+            fg_color="#2E8B57",      # Verde
+            hover_color="#256F46",   # Verde mais escuro
+            text_color="white"
+            ).pack(side="left", padx=5)
+        ctk.CTkButton(
+            botoes, text="Mostrar Pasta",
+            fg_color="#555555",
+            hover_color="#444444"
+            ).pack(side="left", padx=5)
         ctk.CTkButton(botoes, text="Editar").pack(side="left", padx=5)
-        ctk.CTkButton(botoes, text="Excluir").pack(side="left", padx=5)
-        ctk.CTkButton(botoes, text="Mostrar Pasta").pack(side="left", padx=5)
-        ctk.CTkButton(botoes, text="Atualizar").pack(side="left", padx=5)
+        ctk.CTkButton(
+            botoes, text="Excluir",
+            fg_color="#D32F2F",
+            hover_color="#B71C1C"
+            ).pack(side="left", padx=5)
