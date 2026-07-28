@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from ui.estilos import *
 
 class CardRotina(ctk.CTkFrame):
 
@@ -59,8 +60,9 @@ Arquivo: {nome_arquivo}
 
         ctk.CTkButton(
             botoes, text="Ver detalhes",
-            fg_color="#2E8B57",      # Verde
-            hover_color="#256F46",   # Verde mais escuro
+            font=FONTE_NORMAL_BOLD,
+            fg_color=VERDE,      # Verde
+            hover_color=VERDE_HOVER,   # Verde mais escuro
             text_color="white",
             command=self.ver_detalhes
             ).pack(side="left", padx=5)
@@ -68,13 +70,15 @@ Arquivo: {nome_arquivo}
         ctk.CTkButton(
             botoes,
             text="Editar Rotina",
+            font=FONTE_NORMAL_BOLD,
             command=self.editar
         ).pack(side="left", padx=5)
         
         ctk.CTkButton(
             botoes, text="Inativar",
-            fg_color="#D32F2F",
-            hover_color="#B71C1C",
+            font=FONTE_NORMAL_BOLD,
+            fg_color=VERMELHO,
+            hover_color=VERMELHO_HOVER,
             command=self.inativar
             ).pack(side="left", padx=5)
     
@@ -156,16 +160,18 @@ Arquivo: {nome_arquivo}
         ctk.CTkButton(
             botoes,
             text="Restaurar",
-            fg_color="#2E8B57",
-            hover_color="#256F46",
+            font=FONTE_PEQUENA,
+            fg_color=VERDE,
+            hover_color=VERDE_HOVER,
             command=self.restaurar
         ).pack(side="left", padx=5)
 
         ctk.CTkButton(
             botoes,
             text="Excluir",
-            fg_color="#D32F2F",
-            hover_color="#B71C1C",
+            font=FONTE_PEQUENA,
+            fg_color=VERDE,
+            hover_color=VERDE_HOVER,
             command=self.excluir
         ).pack(side="left", padx=5)
 

@@ -3,6 +3,7 @@ from tkinter import messagebox
 import os
 import re
 from database import criar_rotina, buscar_rotina, atualizar_rotina
+from ui.estilos import *
 from tkinter import filedialog
 
 
@@ -49,7 +50,7 @@ class TelaCadastro(ctk.CTkFrame):
         titulo = ctk.CTkLabel(
             self,
             text=texto_titulo,
-            font=("Arial", 24, "bold")
+            font=FONTE_TITULO
         )
 
         titulo.grid(
@@ -149,7 +150,7 @@ class TelaCadastro(ctk.CTkFrame):
             self,
             width=300,
             placeholder_text="08:00",
-            placeholder_text_color="#8A8A8A"
+            placeholder_text_color=PLACEHOLDER
         )
 
         self.hora_entry.grid(
@@ -198,8 +199,9 @@ class TelaCadastro(ctk.CTkFrame):
         botao_selecionar = ctk.CTkButton(
             frame_executavel,
             text="Selecionar",
-            fg_color="#555555",
-            hover_color="#444444",
+            font=FONTE_PEQUENA,
+            fg_color=CINZA,
+            hover_color=CINZA_HOVER,
             width=80,
             command=self.selecionar_executavel
         )
@@ -225,6 +227,7 @@ class TelaCadastro(ctk.CTkFrame):
         ctk.CTkButton(
             frame_botoes,
             text="← Voltar",
+            font=FONTE_NORMAL_BOLD,
             fg_color="gray40",
             hover_color="gray30",
             command=self.voltar
@@ -236,6 +239,7 @@ class TelaCadastro(ctk.CTkFrame):
         ctk.CTkButton(
             frame_botoes,
             text="Salvar rotina",
+            font=FONTE_NORMAL_BOLD,
             command=self.salvar_rotina
         ).pack(
             side="left",
@@ -320,7 +324,8 @@ class TelaCadastro(ctk.CTkFrame):
         self.dia_mes_entry = ctk.CTkEntry(
             self.frame_condicional,
             width=300,
-            placeholder_text="Ex: 25"
+            placeholder_text="Ex: 25",
+            placeholder_text_color=PLACEHOLDER
         )
 
         self.dia_mes_entry.grid(

@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from database import listar_rotinas_ativas
 from database import inativar_rotina as db_inativar_rotina
+from ui.estilos import *
 from ui.componentes import CardRotina
 from monitor import verificar_rotina
 
@@ -71,7 +72,7 @@ class TelaPrincipal(ctk.CTkFrame):
         titulo = ctk.CTkLabel(
             topo,
             text="SEMMOFFO - Rotinas",
-            font=("Arial", 24, "bold")
+            font= FONTE_TITULO
         )
 
         titulo.pack(
@@ -84,8 +85,9 @@ class TelaPrincipal(ctk.CTkFrame):
         botao_adicionar = ctk.CTkButton(
             topo,
             text="+ Nova Rotina",
-            fg_color="#856C00",
-            hover_color="#B19000",
+            font=FONTE_NORMAL_BOLD,
+            fg_color=AMARELO,
+            hover_color=AMARELO_HOVER,
             command=self.abrir_cadastro
         )
 
@@ -94,9 +96,10 @@ class TelaPrincipal(ctk.CTkFrame):
             padx=5
         )
         
-        ctk.CTkButton(
+        ctk.CTkButton(  
             topo,
             text="Rotinas Inativas",
+            font= FONTE_NORMAL_BOLD,
             fg_color="#555555",
             hover_color="#444444",
             command=self.abrir_inativas

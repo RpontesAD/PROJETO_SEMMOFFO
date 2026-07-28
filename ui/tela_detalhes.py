@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from database import buscar_rotina
+from ui.estilos import *
 
 
 class TelaDetalhes(ctk.CTkFrame):
@@ -139,20 +140,23 @@ class TelaDetalhes(ctk.CTkFrame):
         ctk.CTkButton(
             rodape,
             text="+ Novo Monitoramento",
-            fg_color="#856C00",
-            hover_color="#B19000",
+            font=FONTE_NORMAL_BOLD,
+            fg_color=AMARELO,
+            hover_color=AMARELO_HOVER,
         ).pack(side="left", padx=5)
 
         ctk.CTkButton(
             rodape,
-            text="Editar Monitoramentos"
+            text="Editar Monitoramentos",
+            font=FONTE_NORMAL_BOLD
         ).pack(side="left", padx=5)
 
         ctk.CTkButton(
             rodape,
             text="Atualizar",
-            fg_color="#2E8B57",   
-            hover_color="#256F46",
+            font=FONTE_NORMAL_BOLD,
+            fg_color=VERDE,   
+            hover_color=VERDE_HOVER,
         ).pack(side="right", padx=5)
 
 
