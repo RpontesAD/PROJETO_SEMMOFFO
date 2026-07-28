@@ -1,0 +1,23 @@
+feat: Adiciona uma nova funcionalidade ao sistema.
+Exemplo: feat(auth): adiciona tela de login com Google
+
+fix: Corrige um erro ou bug no código.
+Exemplo: fix(carrinho): corrige cálculo do frete grátis
+
+docs: Altera apenas arquivos de documentação (como o README).
+Exemplo: docs(readme): atualiza instruções de instalação
+
+style: Mudanças de formatação de código que não afetam a lógica (espaços, ponto e vírgula).
+Exemplo: style(Header): ajusta indentação do menu
+
+refactor: Melhora o código sem criar recursos ou corrigir bugs.
+Exemplo: refactor(api): simplifica validação de usuários
+
+perf: Mudança focada em melhorar o desempenho do sistema.
+Exemplo: perf(imagens): comprime assets da página inicial
+
+test: Criação ou atualização de testes automatizados.
+Exemplo: test(login): adiciona testes unitários para o formulário
+
+chore: Atualizações de tarefas de manutenção, dependências ou build que não mexem no código de produção.
+Exemplo: chore(deps): atualiza versão do React
