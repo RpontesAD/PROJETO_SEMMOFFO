@@ -2,18 +2,22 @@ import customtkinter as ctk
 from tkinter import messagebox
 import os
 import re
-from database import criar_rotina
+from database import criar_rotina, buscar_rotina, atualizar_rotina
 from tkinter import filedialog
 
 
 class TelaCadastro(ctk.CTkFrame):
 
-    def __init__(self, parent, app):
+    def __init__(self, parent, app, id_rotina=None):
         super().__init__(parent)
 
         self.app = app
+        self.id_rotina = id_rotina
 
         self.criar_widgets()
+
+        if self.id_rotina:
+            self.carregar_rotina()
         
     def selecionar_executavel(self):
 
@@ -34,7 +38,6 @@ class TelaCadastro(ctk.CTkFrame):
                 0,
                 caminho
             )
-
 
     def criar_widgets(self):
 
@@ -143,7 +146,8 @@ class TelaCadastro(ctk.CTkFrame):
         self.hora_entry = ctk.CTkEntry(
             self,
             width=300,
-            placeholder_text="08:00"
+            placeholder_text="08:00",
+            placeholder_text_color="#8A8A8A"
         )
 
         self.hora_entry.grid(
@@ -329,7 +333,6 @@ class TelaCadastro(ctk.CTkFrame):
             state="disabled"
         )
 
-
     def liberar_campo(self, campo):
 
         campo.configure(
@@ -374,11 +377,10 @@ class TelaCadastro(ctk.CTkFrame):
             )
 
     def voltar(self):
-        self.app.mostrar_tela_principal()
+        self.app.trocar_tela("principal")
 
     def destacar_erro(self, campo):
         campo.configure(border_color="#E53935")
-
 
     def limpar_erros(self):
 
@@ -395,7 +397,6 @@ class TelaCadastro(ctk.CTkFrame):
 
         for campo in campos:
             campo.configure(border_color=cor_padrao)
-
 
     def validar_campos(self):
 
@@ -475,7 +476,6 @@ class TelaCadastro(ctk.CTkFrame):
 
         return True
 
-
     def salvar_rotina(self):
 
         if not self.validar_campos():
@@ -521,16 +521,36 @@ class TelaCadastro(ctk.CTkFrame):
 
 
 
-        nova_rotina = {
-            "nome": nome,
-            "executavel": executavel,
-            "periodo": periodo.upper(),
-            "hora": hora,
-            "regra_dia": regra_dia,
-            "dia_semana": dia_semana,
-            "dia_mes": dia_mes,
-            "ativo": 1
-        }
+        if self.id_rotina:
 
+            atualizar_rotina(
+                self.id_rotina,
+                nome,
+                executavel,
+                periodo.upper(),
+                hora,
+                regra_dia,
+                dia_semana,
+                dia_mes
+            )
 
-        print(nova_rotina)
+        else:
+
+            criar_rotina(
+                nome,
+                executavel,
+                periodo.upper(),
+                hora,
+                regra_dia,
+                dia_semana,
+                dia_mes
+            )
+        
+    def carregar_rotina(self):
+
+        rotina = buscar_rotina(self.id_rotina)
+
+        self.nome_entry.insert(0, rotina["nome"])
+        self.executavel_entry.insert(0, rotina["executavel"])
+        self.periodicidade_combo.set(rotina["periodo"])
+        self.hora_entry.insert(0, rotina["hora"])

@@ -96,9 +96,11 @@ def criar_rotina(
     conexao.close()
     
 # Função que lista todas as rotinas    
-def listar_rotinas():
+def listar_rotinas_ativas():
 
     conexao = conectar()
+    conexao.row_factory = sqlite3.Row
+
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -112,10 +114,44 @@ def listar_rotinas():
 
     conexao.close()
 
-    return rotinas
+    return [dict(rotina) for rotina in rotinas]
+
+def listar_rotinas_inativas():
+
+    conexao = conectar()
+    conexao.row_factory = sqlite3.Row
+
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM rotinas
+        WHERE ativo = 0
+        ORDER BY nome
+    """)
+
+    rotinas = cursor.fetchall()
+
+    conexao.close()
+
+    return [dict(rotina) for rotina in rotinas]
+
+def restaurar_rotina(id_rotina):
+
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        UPDATE rotinas
+        SET ativo = 1
+        WHERE id = ?
+    """, (id_rotina,))
+
+    conexao.commit()
+    conexao.close()
 
 # Função para INATIVAR rotina - Caso precise reativar
-def excluir_rotina(id_rotina):
+def inativar_rotina(id_rotina):
 
     conexao = conectar()
     cursor = conexao.cursor()
@@ -129,10 +165,30 @@ def excluir_rotina(id_rotina):
     conexao.commit()
     conexao.close()
     
+def excluir_rotina(id_rotina):
+
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+        DELETE FROM monitoramentos
+        WHERE rotina_id = ?
+    """, (id_rotina,))
+
+    cursor.execute("""
+        DELETE FROM rotinas
+        WHERE id = ?
+    """, (id_rotina,))
+
+    conexao.commit()
+    conexao.close()
+    
 # Função para buscar rotina    
 def buscar_rotina(id_rotina):
 
     conexao = conectar()
+    conexao.row_factory = sqlite3.Row
+
     cursor = conexao.cursor()
 
     cursor.execute("""
@@ -145,7 +201,7 @@ def buscar_rotina(id_rotina):
 
     conexao.close()
 
-    return rotina
+    return dict(rotina)
 
 # Atualiza os DADOS da rotina
 def atualizar_rotina(

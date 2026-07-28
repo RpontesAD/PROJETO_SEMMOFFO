@@ -1,6 +1,8 @@
 import customtkinter as ctk
 from ui.tela_principal import TelaPrincipal
 from ui.tela_cadastro import TelaCadastro
+from ui.tela_inativas import TelaInativas
+
 
 
 class App(ctk.CTk):
@@ -8,8 +10,14 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         
+        self.telas = {
+            "principal": TelaPrincipal,
+            "cadastro": TelaCadastro,
+            "inativas": TelaInativas
+        }
+        
         self.title("SEMMOFFO - Monitor de Rotinas")
-        self.geometry("700x700")
+        self.geometry("750x700")
 
         self.container = ctk.CTkFrame(self)
         self.container.pack(
@@ -20,14 +28,17 @@ class App(ctk.CTk):
         self.mostrar_tela_principal()
 
 
-    def trocar_tela(self, tela):
+    def trocar_tela(self, nome_tela, **kwargs):
 
         for widget in self.container.winfo_children():
             widget.destroy()
 
+        tela = self.telas[nome_tela]
+
         nova_tela = tela(
             self.container,
-            self
+            self,
+            **kwargs
         )
 
         nova_tela.pack(
@@ -35,6 +46,5 @@ class App(ctk.CTk):
             expand=True
         )
 
-
     def mostrar_tela_principal(self):
-        self.trocar_tela(TelaPrincipal)
+        self.trocar_tela("principal")

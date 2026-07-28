@@ -217,17 +217,15 @@ def verificar_rotina(id_rotina):
         return None
 
 
-    (
-        id,
-        nome,
-        executavel,
-        periodo,
-        hora,
-        regra_dia,
-        dia_semana,
-        dia_mes,
-        ativo
-    ) = rotina
+    id = rotina["id"]
+    nome = rotina["nome"]
+    executavel = rotina["executavel"]
+    periodo = rotina["periodo"]
+    hora = rotina["hora"]
+    regra_dia = rotina["regra_dia"]
+    dia_semana = rotina["dia_semana"]
+    dia_mes = rotina["dia_mes"]
+    ativo = rotina["ativo"]
 
 
     prazo = calcular_ultimo_prazo(
