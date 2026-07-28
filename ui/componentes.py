@@ -2,11 +2,12 @@ import customtkinter as ctk
 
 class CardRotina(ctk.CTkFrame):
 
-    def __init__(self, master, resultado, on_inativar=None, on_editar=None):
+    def __init__(self, master, resultado, on_inativar=None, on_editar=None, on_detalhes=None):
         super().__init__(master)
         
         self.on_inativar = on_inativar
         self.on_editar = on_editar
+        self.on_detalhes = on_detalhes
 
         id_rotina = resultado["id"]
         self.id_rotina = id_rotina
@@ -60,12 +61,13 @@ Arquivo: {nome_arquivo}
             botoes, text="Ver detalhes",
             fg_color="#2E8B57",      # Verde
             hover_color="#256F46",   # Verde mais escuro
-            text_color="white"
+            text_color="white",
+            command=self.ver_detalhes
             ).pack(side="left", padx=5)
         
         ctk.CTkButton(
             botoes,
-            text="Editar",
+            text="Editar Rotina",
             command=self.editar
         ).pack(side="left", padx=5)
         
@@ -88,6 +90,11 @@ Arquivo: {nome_arquivo}
 
         if self.on_editar:
             self.on_editar(self.id_rotina)
+
+    def ver_detalhes(self):
+
+        if self.on_detalhes:
+            self.on_detalhes(self.id_rotina)
             
 class CardRotinaInativa(ctk.CTkFrame):
 

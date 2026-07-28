@@ -2,6 +2,7 @@ import customtkinter as ctk
 from ui.tela_principal import TelaPrincipal
 from ui.tela_cadastro import TelaCadastro
 from ui.tela_inativas import TelaInativas
+from ui.tela_detalhes import TelaDetalhes
 
 
 
@@ -13,11 +14,12 @@ class App(ctk.CTk):
         self.telas = {
             "principal": TelaPrincipal,
             "cadastro": TelaCadastro,
-            "inativas": TelaInativas
+            "inativas": TelaInativas,
+            "detalhes": TelaDetalhes
         }
         
         self.title("SEMMOFFO - Monitor de Rotinas")
-        self.geometry("750x850")
+        self.geometry("950x850")
 
         self.container = ctk.CTkFrame(self)
         self.container.pack(

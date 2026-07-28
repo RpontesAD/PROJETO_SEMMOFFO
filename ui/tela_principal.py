@@ -30,7 +30,8 @@ class TelaPrincipal(ctk.CTkFrame):
                 self.lista_rotinas,
                 resultado,
                 on_inativar=self.confirmar_inativacao,
-                on_editar=self.editar_rotina
+                on_editar=self.editar_rotina,
+                on_detalhes=self.ver_detalhes
             )
 
             card.pack(
@@ -52,6 +53,13 @@ class TelaPrincipal(ctk.CTkFrame):
         
     def abrir_inativas(self):
         self.app.trocar_tela("inativas")
+
+    def ver_detalhes(self, id_rotina):
+
+        self.app.trocar_tela(
+            "detalhes",
+            id_rotina=id_rotina
+        )
 
 
     def criar_widgets(self):
