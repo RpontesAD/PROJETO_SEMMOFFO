@@ -62,7 +62,7 @@ class TelaPrincipal(ctk.CTkFrame):
 
         titulo = ctk.CTkLabel(
             topo,
-            text="SEMMOFFO - Monitor de Rotinas",
+            text="SEMMOFFO - Rotinas",
             font=("Arial", 24, "bold")
         )
 
