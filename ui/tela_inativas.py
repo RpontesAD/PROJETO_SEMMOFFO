@@ -23,7 +23,7 @@ class TelaInativas(ctk.CTkFrame):
 
         for rotina in rotinas:
 
-            resultado = verificar_rotina(rotina[0])
+            resultado = verificar_rotina(rotina["id"])
 
             card = CardRotinaInativa(
                 self.lista_rotinas,

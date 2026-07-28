@@ -44,9 +44,11 @@ class TelaCadastro(ctk.CTkFrame):
         self.grid_columnconfigure(0, weight=1)
 
 
+        texto_titulo = "Editar Rotina" if self.id_rotina else "Nova Rotina"
+
         titulo = ctk.CTkLabel(
             self,
-            text="Nova Rotina",
+            text=texto_titulo,
             font=("Arial", 24, "bold")
         )
 
@@ -439,6 +441,7 @@ class TelaCadastro(ctk.CTkFrame):
                 self.destacar_erro(self.dia_semana_combo)
                 self.dia_semana_combo.focus()
                 return False
+            
 
         # Mensal
         elif periodo == "Mensal":
@@ -485,7 +488,15 @@ class TelaCadastro(ctk.CTkFrame):
 
         executavel = self.executavel_entry.get()
 
-        periodo = self.periodicidade_combo.get()
+        periodo_map = {
+            "Diário": "DIARIO",
+            "Semanal": "SEMANAL",
+            "Mensal": "MENSAL"
+        }
+
+        periodo = periodo_map[
+            self.periodicidade_combo.get()
+        ]
 
         hora = self.hora_entry.get()
 
@@ -495,9 +506,21 @@ class TelaCadastro(ctk.CTkFrame):
         dia_mes = None
 
 
-        if periodo == "Semanal":
+        if periodo == "SEMANAL":
 
-            dia_semana = self.dia_semana_combo.get()
+            dias_semana = {
+                "Segunda": 0,
+                "Terça": 1,
+                "Quarta": 2,
+                "Quinta": 3,
+                "Sexta": 4,
+                "Sábado": 5,
+                "Domingo": 6
+            }
+
+            dia_semana = dias_semana[
+                self.dia_semana_combo.get()
+            ]
 
 
         elif periodo == "Mensal":
@@ -537,7 +560,7 @@ class TelaCadastro(ctk.CTkFrame):
         else:
 
             criar_rotina(
-                nome,
+                nome.upper(),
                 executavel,
                 periodo.upper(),
                 hora,
@@ -545,12 +568,77 @@ class TelaCadastro(ctk.CTkFrame):
                 dia_semana,
                 dia_mes
             )
+            
+        if self.id_rotina:
+
+            self.mostrar_sucesso(
+                "Rotina atualizada com sucesso!"
+            )
+
+        else:
+
+            self.mostrar_sucesso(
+                "Rotina criada com sucesso!"
+            )
         
     def carregar_rotina(self):
 
         rotina = buscar_rotina(self.id_rotina)
 
         self.nome_entry.insert(0, rotina["nome"])
-        self.executavel_entry.insert(0, rotina["executavel"])
-        self.periodicidade_combo.set(rotina["periodo"])
-        self.hora_entry.insert(0, rotina["hora"])
+        
+        if rotina["executavel"]:
+            self.executavel_entry.insert(0, rotina["executavel"])
+
+        self.periodicidade_combo.set(
+            rotina["periodo"].capitalize()
+        )
+
+        self.hora_entry.insert(
+            0,
+            rotina["hora"]
+        )
+
+
+        if rotina["dia_semana"] is not None:
+
+            dias_semana = {
+                0: "Segunda",
+                1: "Terça",
+                2: "Quarta",
+                3: "Quinta",
+                4: "Sexta",
+                5: "Sábado",
+                6: "Domingo"
+            }
+
+            self.dia_semana_combo.set(
+                dias_semana[rotina["dia_semana"]]
+            )
+        
+    def mostrar_sucesso(self, mensagem):
+
+        janela = ctk.CTkToplevel(self)
+
+        janela.title("Sucesso")
+        janela.geometry("350x150")
+        janela.grab_set()
+        janela.resizable(False, False)
+
+        ctk.CTkLabel(
+            janela,
+            text="✅",
+            font=("Arial", 30)
+        ).pack(pady=(15,0))
+
+        ctk.CTkLabel(
+            janela,
+            text=mensagem,
+            font=("Arial", 16)
+        ).pack(pady=10)
+
+        ctk.CTkButton(
+            janela,
+            text="OK",
+            command=janela.destroy
+        ).pack(pady=5)

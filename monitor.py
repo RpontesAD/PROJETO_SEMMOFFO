@@ -76,6 +76,11 @@ def calcular_ultimo_prazo(periodo, hora, regra_dia=None, dia_semana=None, dia_me
     
     elif periodo == "SEMANAL":
 
+        if dia_semana is None:
+            return None
+
+        dia_semana = int(dia_semana)
+
         dias_desde_dia = (
             agora.weekday() - dia_semana
         ) % 7
@@ -121,10 +126,13 @@ def calcular_ultimo_prazo(periodo, hora, regra_dia=None, dia_semana=None, dia_me
 
         else:
 
+            if not dia_mes:
+                return None
+
             prazo_data = datetime(
                 agora.year,
                 agora.month,
-                dia_mes
+                int(dia_mes)
             )
 
 
@@ -165,10 +173,13 @@ def calcular_ultimo_prazo(periodo, hora, regra_dia=None, dia_semana=None, dia_me
 
             else:
 
+                if not dia_mes:
+                    return None
+
                 prazo_data = datetime(
                     ano,
                     mes,
-                    dia_mes
+                    int(dia_mes)
                 )
 
 
@@ -291,10 +302,13 @@ def verificar_rotina(id_rotina):
 
         else:
 
-            status = verificar_status(
-                info["data_modificacao"],
-                prazo
-            )
+            if prazo is None:
+                status = "⚠️ Configuração inválida"
+            else:
+                status = verificar_status(
+                    info["data_modificacao"],
+                    prazo
+                )
 
 
         resultado["arquivos"].append({

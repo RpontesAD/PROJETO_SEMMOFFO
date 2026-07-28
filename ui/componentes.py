@@ -57,16 +57,10 @@ Arquivo: {nome_arquivo}
         botoes.pack(anchor="e", padx=15, pady=10)
 
         ctk.CTkButton(
-            botoes, text="Visualizar",
+            botoes, text="Ver detalhes",
             fg_color="#2E8B57",      # Verde
             hover_color="#256F46",   # Verde mais escuro
             text_color="white"
-            ).pack(side="left", padx=5)
-        
-        ctk.CTkButton(
-            botoes, text="Mostrar Pasta",
-            fg_color="#555555",
-            hover_color="#444444"
             ).pack(side="left", padx=5)
         
         ctk.CTkButton(
