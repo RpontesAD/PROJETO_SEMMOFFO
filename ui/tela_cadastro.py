@@ -523,24 +523,22 @@ class TelaCadastro(ctk.CTkFrame):
             ]
 
 
-        elif periodo == "Mensal":
+        elif periodo == "MENSAL":
 
             regra = self.regra_combo.get()
-
 
             if regra == "Primeiro dia útil":
 
                 regra_dia = "PRIMEIRO_DIA_UTIL"
 
-
             elif regra == "Último dia útil":
 
                 regra_dia = "ULTIMO_DIA_UTIL"
 
-
             elif regra == "Dia específico":
 
-                dia_mes = self.dia_mes_entry.get()
+                regra_dia = "DIA_ESPECIFICO"
+                dia_mes = int(self.dia_mes_entry.get())
 
 
 
