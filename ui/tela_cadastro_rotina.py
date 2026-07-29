@@ -101,7 +101,7 @@ class TelaCadastro(ctk.CTkFrame):
         self.periodicidade_combo = ctk.CTkComboBox(
             self,
             values=[
-                "Diário",
+                "Diario",
                 "Semanal",
                 "Mensal"
             ],
