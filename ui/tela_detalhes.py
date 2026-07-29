@@ -27,6 +27,7 @@ class TelaDetalhes(ctk.CTkFrame):
         ctk.CTkButton(
             topo,
             text="← Voltar",
+            text_color=TX_AZUL,
             command=self.voltar,
             width=100
         ).pack(side="left")
@@ -34,7 +35,7 @@ class TelaDetalhes(ctk.CTkFrame):
         ctk.CTkLabel(
             topo,
             text=self.rotina["nome"],
-            font=("Arial", 24, "bold")
+            font=FONTE_TITULO
         ).pack(side="left", padx=20)
 
         # ---------- Informações ----------
@@ -140,6 +141,7 @@ class TelaDetalhes(ctk.CTkFrame):
         ctk.CTkButton(
             rodape,
             text="+ Novo Monitoramento",
+            text_color=TX_AMARELO,
             font=FONTE_NORMAL_BOLD,
             fg_color=AMARELO,
             hover_color=AMARELO_HOVER,
@@ -148,12 +150,14 @@ class TelaDetalhes(ctk.CTkFrame):
         ctk.CTkButton(
             rodape,
             text="Editar Monitoramentos",
+            text_color=TX_AZUL,
             font=FONTE_NORMAL_BOLD
         ).pack(side="left", padx=5)
 
         ctk.CTkButton(
             rodape,
             text="Atualizar",
+            text_color=TX_VERDE,
             font=FONTE_NORMAL_BOLD,
             fg_color=VERDE,   
             hover_color=VERDE_HOVER,
