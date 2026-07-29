@@ -1,6 +1,7 @@
 import customtkinter as ctk
-from database import buscar_rotina, listar_monitoramentos
+from database import buscar_rotina, listar_monitoramentos, excluir_monitoramento
 from ui.estilos import *
+from ui.componentes import JanelaConfirmacao
 from monitor import verificar_rotina
 import subprocess
 import threading
@@ -200,6 +201,20 @@ class TelaDetalhes(ctk.CTkFrame):
 
         monitoramentos = resultado["arquivos"]
 
+        if not monitoramentos:
+
+            ctk.CTkLabel(
+                self.lista_monitoramentos,
+                text="Nenhum monitoramento cadastrado...",
+                font=FONTE_NORMAL,
+                text_color="gray60"
+            ).pack(
+                expand=True,
+                pady=40
+            )
+
+            return
+
         for monitoramento in monitoramentos:
             self.criar_card_monitoramento(monitoramento)
             
@@ -253,19 +268,40 @@ class TelaDetalhes(ctk.CTkFrame):
             text=monitoramento["caminho"],
             font=FONTE_PEQUENA
         ).pack(anchor="w", padx=15, pady=(0, 10))
+
+        botoes = ctk.CTkFrame(
+            card,
+            fg_color="transparent"
+        )
+
+        botoes.pack(
+            anchor="e",
+            padx=15,
+            pady=(0, 10)
+        )
         
         ctk.CTkButton(
-            card,
+            botoes,
             text="Editar",
             text_color=TX_AZUL,
             font=FONTE_PEQUENA_BOLD,
             width=80,
             command=lambda: self.editar_monitoramento(monitoramento)
         ).pack(
-            anchor="e",
-            padx=15,
-            pady=(0,10)
+            side="left",
+            padx=(0, 5)
         )
+
+        ctk.CTkButton(
+            botoes,
+            text="Excluir",
+            text_color=TX_VERMELHO,
+            fg_color=VERMELHO,
+            hover_color=VERMELHO_HOVER,
+            font=FONTE_PEQUENA_BOLD,
+            width=80,
+            command=lambda: self.excluir_monitoramento(monitoramento)
+        ).pack(side="left")
         
     def editar_monitoramento(self, monitoramento):
 
@@ -274,6 +310,26 @@ class TelaDetalhes(ctk.CTkFrame):
             id_rotina=self.id_rotina,
             id_monitoramento=monitoramento["id"]
         )
+
+    def excluir_monitoramento(self, monitoramento):
+
+        JanelaConfirmacao(
+            parent=self,
+            titulo="Excluir monitoramento",
+            mensagem=f'Deseja realmente excluir o monitoramento\n\n"{monitoramento["nome"]}"?',
+            callback_confirmar=lambda: self.confirmar_exclusao_monitoramento(monitoramento)
+        )
+
+    def confirmar_exclusao_monitoramento(self, monitoramento):
+
+        excluir_monitoramento(monitoramento["id"])
+
+        self.app.notificar(
+            "Monitoramento excluído com sucesso.",
+            "sucesso"
+        )
+
+        self.carregar_monitoramentos()
 
     def _executar_rotina(self):
         executavel = self.rotina.get("executavel")

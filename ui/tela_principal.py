@@ -2,6 +2,7 @@ import customtkinter as ctk
 from database import listar_rotinas_ativas
 from database import inativar_rotina as db_inativar_rotina
 from ui.estilos import *
+from ui.componentes import JanelaConfirmacao
 from ui.componentes import CardRotina
 from monitor import verificar_rotina
 
@@ -22,6 +23,20 @@ class TelaPrincipal(ctk.CTkFrame):
             widget.destroy()
 
         rotinas = listar_rotinas_ativas()
+
+        if not rotinas:
+        
+            ctk.CTkLabel(
+                self.lista_rotinas,
+                text="Nenhuma rotina cadastrada...",
+                font=FONTE_NORMAL,
+                text_color="gray60"
+            ).pack(
+                expand=True,
+                pady=40
+            )
+
+            return
 
         for rotina in rotinas:
 
@@ -122,50 +137,25 @@ class TelaPrincipal(ctk.CTkFrame):
     
     def confirmar_inativacao(self, id_rotina, nome):
 
-        janela = ctk.CTkToplevel(self)
-        janela.title("Inativar rotina")
-        janela.geometry("400x180")
-        janela.grab_set()
-        janela.resizable(False, False)
-
-        ctk.CTkLabel(
-            janela,
-            text=f"Inativar a rotina\n\n'{nome}'?",
-            font=("Arial", 18, "bold"),
-            justify="center"
-        ).pack(pady=(20, 10))
-
-        ctk.CTkLabel(
-            janela,
-            text="Ela será movida para a lista de rotinas inativas.",
-            justify="center"
-        ).pack()
-
-        frame = ctk.CTkFrame(janela, fg_color="transparent")
-        frame.pack(pady=20)
-
-        ctk.CTkButton(
-            frame,
-            text="Cancelar",
-            fg_color="gray",
-            command=janela.destroy
-        ).pack(side="left", padx=10)
-
-        ctk.CTkButton(
-            frame,
-            text="Inativar",
-            fg_color="#D32F2F",
-            hover_color="#B71C1C",
-            command=lambda: self.inativar_rotina(
-                id_rotina,
-                janela
-            )
-        ).pack(side="left", padx=10)
+        JanelaConfirmacao(
+            parent=self,
+            titulo="Inativar rotina",
+            mensagem=(
+                f'Deseja realmente inativar a rotina\n\n'
+                f'"{nome}"?\n\n'
+                "Ela será movida para a lista de rotinas inativas."
+            ),
+            texto_confirmar="Inativar",
+            callback_confirmar=lambda: self.inativar_rotina(id_rotina)
+        )
         
-    def inativar_rotina(self, id_rotina, janela):
+    def inativar_rotina(self, id_rotina):
 
         db_inativar_rotina(id_rotina)
 
-        janela.destroy()
+        self.app.notificar(
+            "Rotina inativada com sucesso.",
+            "sucesso"
+        )
 
         self.carregar_rotinas()

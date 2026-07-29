@@ -239,3 +239,86 @@ class Notificacao(ctk.CTkFrame):
         )
 
         self.after(duracao, self.destroy)
+
+class JanelaConfirmacao(ctk.CTkToplevel):
+
+    def __init__(
+        self,
+        parent,
+        titulo,
+        mensagem,
+        callback_confirmar,
+        texto_confirmar="Confirmar",
+        cor_confirmar="#DC2626",
+        hover_confirmar="#B91C1C"
+    ):
+        super().__init__(parent)
+
+        self.callback_confirmar = callback_confirmar
+
+        self.title(titulo)
+        self.geometry("420x180")
+        self.resizable(False, False)
+
+        self.transient(parent)
+        self.grab_set()
+
+        self.grid_columnconfigure(0, weight=1)
+
+        ctk.CTkLabel(
+            self,
+            text=titulo,
+            font=("Roboto", 18, "bold")
+        ).grid(
+            row=0,
+            column=0,
+            pady=(20, 10)
+        )
+
+        ctk.CTkLabel(
+            self,
+            text=mensagem,
+            justify="center",
+            wraplength=350
+        ).grid(
+            row=1,
+            column=0,
+            padx=20
+        )
+
+        frame_botoes = ctk.CTkFrame(
+            self,
+            fg_color="transparent"
+        )
+
+        frame_botoes.grid(
+            row=2,
+            column=0,
+            pady=20
+        )
+
+        ctk.CTkButton(
+            frame_botoes,
+            text="Cancelar",
+            width=100,
+            command=self.destroy
+        ).pack(
+            side="left",
+            padx=5
+        )
+
+        ctk.CTkButton(
+            frame_botoes,
+            text=texto_confirmar,
+            width=100,
+            fg_color=cor_confirmar,
+            hover_color=hover_confirmar,
+            command=self.confirmar
+        ).pack(
+            side="left",
+            padx=5
+        )
+
+    def confirmar(self):
+        self.callback_confirmar()
+        self.destroy()
