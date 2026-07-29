@@ -267,14 +267,11 @@ def verificar_rotina(id_rotina):
 
     for monitoramento in monitoramentos:
 
-        (
-            id_monitoramento,
-            rotina_id,
-            tipo,
-            pasta,
-            arquivo,
-            obrigatorio
-        ) = monitoramento
+        tipo = monitoramento["tipo"]
+        pasta = monitoramento["pasta"]
+        arquivo = monitoramento["arquivo"]
+        obrigatorio = monitoramento["obrigatorio"]
+        nome = monitoramento["nome"]
 
 
         if tipo == "ARQUIVO_ALVO":
@@ -313,6 +310,7 @@ def verificar_rotina(id_rotina):
 
         resultado["arquivos"].append({
             "tipo": tipo,
+            "nome": nome,
             "arquivo": nome_arquivo,
             "caminho": info.get("caminho"),
             "data_modificacao": info["data_modificacao"],
@@ -335,10 +333,15 @@ def buscar_ultimo_arquivo(pasta):
             "data_modificacao": None
         }
 
+    arquivos_ignorados = {
+    "desktop.ini"
+}
+
     arquivos = [
         arquivo
         for arquivo in pasta.iterdir()
         if arquivo.is_file()
+        and arquivo.name.lower() not in arquivos_ignorados
     ]
 
     if not arquivos:

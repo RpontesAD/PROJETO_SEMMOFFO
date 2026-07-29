@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from ui.tela_principal import TelaPrincipal
-from ui.tela_cadastro import TelaCadastro
+from ui.tela_cadastro_rotina import TelaCadastro
+from ui.tela_cadastro_monitoramento import TelaCadastroMonitoramento
 from ui.tela_inativas import TelaInativas
 from ui.tela_detalhes import TelaDetalhes
 
@@ -15,7 +16,8 @@ class App(ctk.CTk):
             "principal": TelaPrincipal,
             "cadastro": TelaCadastro,
             "inativas": TelaInativas,
-            "detalhes": TelaDetalhes
+            "detalhes": TelaDetalhes,
+            "cadastro_monitoramento": TelaCadastroMonitoramento
         }
         
         self.title("SEMMOFFO - Monitor de Rotinas")

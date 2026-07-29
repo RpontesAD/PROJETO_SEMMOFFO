@@ -4,7 +4,9 @@ DB = "banco.db"
 
 # Conexão com o banco de dados
 def conectar():
-    return sqlite3.connect(DB)
+    conexao = sqlite3.connect(DB)
+    conexao.row_factory = sqlite3.Row
+    return conexao
 
 # Cria as tabelas - Se não existirem
 def criar_tabelas():
@@ -37,6 +39,7 @@ def criar_tabelas():
     CREATE TABLE IF NOT EXISTS monitoramentos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         rotina_id INTEGER NOT NULL,
+        nome TEXT NOT NULL,
         tipo TEXT NOT NULL,
         pasta TEXT NOT NULL,
         arquivo TEXT,
@@ -253,6 +256,7 @@ def atualizar_rotina(
 # Função para criar o monitoramento
 def criar_monitoramento(
     rotina_id,
+    nome,
     tipo,
     pasta,
     arquivo=None,
@@ -266,14 +270,16 @@ def criar_monitoramento(
         INSERT INTO monitoramentos
         (
             rotina_id,
+            nome,
             tipo,
             pasta,
             arquivo,
             obrigatorio
         )
-        VALUES (?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?)
     """, (
         rotina_id,
+        nome,
         tipo,
         pasta,
         arquivo,
@@ -300,7 +306,7 @@ def listar_monitoramentos(rotina_id):
 
     conexao.close()
 
-    return monitoramentos
+    return [dict(m) for m in monitoramentos]
 
 # Função que busca monitoramento expecífico
 def buscar_monitoramento(id_monitoramento):
@@ -318,7 +324,7 @@ def buscar_monitoramento(id_monitoramento):
 
     conexao.close()
 
-    return monitoramento
+    return [dict(m) for m in monitoramentos]
 
 # Função que conta quantos monitoramentos tem em uma rotina
 def contar_monitoramentos(rotina_id):
@@ -353,7 +359,8 @@ def atualizar_monitoramento(
     cursor.execute("""
         UPDATE monitoramentos
 
-        SET
+        SET 
+            nome = ?
             tipo = ?,
             pasta = ?,
             arquivo = ?,
@@ -361,6 +368,7 @@ def atualizar_monitoramento(
 
         WHERE id = ?
     """, (
+        nome,
         tipo,
         pasta,
         arquivo,

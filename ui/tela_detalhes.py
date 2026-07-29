@@ -1,6 +1,7 @@
 import customtkinter as ctk
-from database import buscar_rotina
+from database import buscar_rotina, listar_monitoramentos
 from ui.estilos import *
+from monitor import verificar_rotina
 
 
 class TelaDetalhes(ctk.CTkFrame):
@@ -12,9 +13,9 @@ class TelaDetalhes(ctk.CTkFrame):
         self.id_rotina = id_rotina
 
         self.rotina = buscar_rotina(id_rotina)
-        
 
         self.criar_widgets()
+        self.carregar_monitoramentos()
 
 
     def criar_widgets(self):
@@ -145,6 +146,7 @@ class TelaDetalhes(ctk.CTkFrame):
             font=FONTE_NORMAL_BOLD,
             fg_color=AMARELO,
             hover_color=AMARELO_HOVER,
+            command=self.novo_monitoramento
         ).pack(side="left", padx=5)
 
         ctk.CTkButton(
@@ -167,3 +169,64 @@ class TelaDetalhes(ctk.CTkFrame):
     def voltar(self):
 
         self.app.trocar_tela("principal")
+        
+    def novo_monitoramento(self):
+        self.app.trocar_tela(
+            "cadastro_monitoramento",
+            id_rotina=self.id_rotina
+        )
+        
+    def carregar_monitoramentos(self):
+
+        for widget in self.lista_monitoramentos.winfo_children():
+            widget.destroy()
+
+        resultado = verificar_rotina(self.id_rotina)
+
+        monitoramentos = resultado["arquivos"]
+
+        for monitoramento in monitoramentos:
+            self.criar_card_monitoramento(monitoramento)
+            
+    def criar_card_monitoramento(self, monitoramento):
+
+        card = ctk.CTkFrame(
+            self.lista_monitoramentos,
+            corner_radius=10
+        )
+
+        card.pack(
+            fill="x",
+            padx=5,
+            pady=5
+        )
+
+        # Nome do monitoramento
+        ctk.CTkLabel(
+            card,
+            text=monitoramento["nome"],
+            font=FONTE_NORMAL_BOLD
+        ).pack(anchor="w", padx=15, pady=(10, 0))
+
+        # Nome do arquivo
+        ctk.CTkLabel(
+            card,
+            text=monitoramento["arquivo"],
+            font=FONTE_NORMAL
+        ).pack(anchor="w", padx=15)
+
+        # Status
+        ctk.CTkLabel(
+            card,
+            text=monitoramento["status"],
+            font=FONTE_NORMAL
+        ).pack(anchor="w", padx=15, pady=(8, 0))
+
+        # Caminho
+        ctk.CTkLabel(
+            card,
+            text=monitoramento["caminho"],
+            font=FONTE_PEQUENA
+        ).pack(anchor="w", padx=15, pady=(0, 10))
+            
+    
