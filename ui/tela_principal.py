@@ -94,7 +94,7 @@ class TelaPrincipal(ctk.CTkFrame):
 
         botao_adicionar.pack(
             side="right",
-            padx=5
+            padx=10
         )
         
         ctk.CTkButton(  

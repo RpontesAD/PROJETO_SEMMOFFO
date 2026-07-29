@@ -28,6 +28,7 @@ class TelaDetalhes(ctk.CTkFrame):
         ctk.CTkButton(
             topo,
             text="← Voltar",
+            font=FONTE_PEQUENA_BOLD,
             text_color=TX_AZUL,
             command=self.voltar,
             width=100
@@ -38,6 +39,19 @@ class TelaDetalhes(ctk.CTkFrame):
             text=self.rotina["nome"],
             font=FONTE_TITULO
         ).pack(side="left", padx=20)
+        
+        ctk.CTkButton(
+            topo,
+            text="+ Novo Monitoramento",
+            text_color=TX_AMARELO,
+            font=FONTE_NORMAL_BOLD,
+            fg_color=AMARELO,
+            hover_color=AMARELO_HOVER,
+            command=self.novo_monitoramento
+        ).pack(
+            side="right",
+            padx=10
+        )
 
         # ---------- Informações ----------
 
@@ -113,7 +127,7 @@ class TelaDetalhes(ctk.CTkFrame):
             text="\n".join(informacoes),
             justify="left",
             anchor="w",
-            font=("Arial", 15)
+            font=FONTE_NORMAL
         ).pack(
             anchor="w",
             padx=15,
@@ -141,29 +155,12 @@ class TelaDetalhes(ctk.CTkFrame):
 
         ctk.CTkButton(
             rodape,
-            text="+ Novo Monitoramento",
-            text_color=TX_AMARELO,
-            font=FONTE_NORMAL_BOLD,
-            fg_color=AMARELO,
-            hover_color=AMARELO_HOVER,
-            command=self.novo_monitoramento
-        ).pack(side="left", padx=5)
-
-        ctk.CTkButton(
-            rodape,
-            text="Editar Monitoramentos",
-            text_color=TX_AZUL,
-            font=FONTE_NORMAL_BOLD
-        ).pack(side="left", padx=5)
-
-        ctk.CTkButton(
-            rodape,
             text="Atualizar",
             text_color=TX_VERDE,
             font=FONTE_NORMAL_BOLD,
             fg_color=VERDE,   
             hover_color=VERDE_HOVER,
-        ).pack(side="right", padx=5)
+        ).pack(side="bottom", padx=5)
 
 
     def voltar(self):
@@ -221,6 +218,16 @@ class TelaDetalhes(ctk.CTkFrame):
             text=monitoramento["status"],
             font=FONTE_NORMAL
         ).pack(anchor="w", padx=15, pady=(8, 0))
+        
+        # Data de modificação
+        ctk.CTkLabel(
+            card,
+            text=f"Última modificação: {monitoramento['data_modificacao'] if monitoramento['data_modificacao'] else 'Não encontrado'}",
+            font=FONTE_PEQUENA
+        ).pack(
+            anchor="w",
+            padx=15
+        )
 
         # Caminho
         ctk.CTkLabel(

@@ -35,11 +35,12 @@ class CardRotina(ctk.CTkFrame):
         titulo = ctk.CTkLabel(
             self,
             text=nome,
-            font=("Arial", 18, "bold")
+            font=FONTE_SUBTITULO
         )
 
         titulo.pack(anchor="w", padx=15, pady=(10, 5))
-
+        
+        # Telinha das rotinas
         info = ctk.CTkLabel(
             self,
             text=f"""
@@ -48,8 +49,6 @@ Status: {status}
 Monitoramentos: {quantidade}
 Periodicidade: {periodicidade}
 
-Arquivo: {nome_arquivo}
-Última modificação: {data_modificacao}
 """
         )
 
@@ -60,7 +59,7 @@ Arquivo: {nome_arquivo}
 
         ctk.CTkButton(
             botoes, 
-            text="Ver detalhes",
+            text="Ver Detalhes",
             text_color=TX_VERDE,
             font=FONTE_NORMAL_BOLD,
             fg_color=VERDE,      # Verde

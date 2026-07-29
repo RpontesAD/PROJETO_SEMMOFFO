@@ -313,7 +313,7 @@ def verificar_rotina(id_rotina):
             "nome": nome,
             "arquivo": nome_arquivo,
             "caminho": info.get("caminho"),
-            "data_modificacao": info["data_modificacao"],
+            "data_modificacao": info["data_modificacao"].strftime("%Y-%m-%d %H:%M") if info["data_modificacao"] else None,
             "status": status
 
         })

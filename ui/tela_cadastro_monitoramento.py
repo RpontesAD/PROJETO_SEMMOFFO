@@ -27,6 +27,8 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
         ctk.CTkButton(
             topo,
             text="← Voltar",
+            font=FONTE_PEQUENA_BOLD,
+            text_color=TX_AZUL,
             command=self.voltar
         ).pack(side="left")
 
@@ -119,6 +121,10 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
         ctk.CTkButton(
             frame_caminho,
             text="Procurar",
+            text_color=TX_CINZA,
+            font=FONTE_PEQUENA,
+            fg_color=CINZA,
+            hover_color=CINZA_HOVER,
             command=self.procurar
         ).pack(
             side="left",
@@ -147,17 +153,22 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
         ctk.CTkButton(
             rodape,
             text="Cancelar",
+            font=FONTE_PEQUENA_BOLD,
+            fg_color=VERMELHO, 
+            hover_color=VERDE_HOVER,
+            text_color=TX_VERMELHO,
             command=self.voltar
-        ).pack(side="left")
+        ).pack(side="left", padx=10)
 
         ctk.CTkButton(
             rodape,
             text="Salvar",
+            font=FONTE_PEQUENA_BOLD,
             fg_color=VERDE,
             hover_color=VERDE_HOVER,
             text_color=TX_VERDE,
             command=self.salvar
-        ).pack(side="right")
+        ).pack(side="right", padx=10)
         
     def alterar_tipo(self, valor):
 
