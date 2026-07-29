@@ -85,6 +85,7 @@ class TelaPrincipal(ctk.CTkFrame):
         botao_adicionar = ctk.CTkButton(
             topo,
             text="+ Nova Rotina",
+            text_color= TX_AMARELO,
             font=FONTE_NORMAL_BOLD,
             fg_color=AMARELO,
             hover_color=AMARELO_HOVER,
@@ -99,6 +100,7 @@ class TelaPrincipal(ctk.CTkFrame):
         ctk.CTkButton(  
             topo,
             text="Rotinas Inativas",
+            text_color= TX_CINZA,
             font= FONTE_NORMAL_BOLD,
             fg_color="#555555",
             hover_color="#444444",

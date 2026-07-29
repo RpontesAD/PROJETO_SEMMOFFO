@@ -7,7 +7,7 @@ FONTE_NORMAL_BOLD = ("Roboto", 14, "bold")
 FONTE_PEQUENA = ("Roboto", 12)
 FONTE_PEQUENA_BOLD = ("Roboto", 12, "bold")
 
-# Cores
+# Cores botões
 
 VERDE = "#2E8B57"
 VERDE_HOVER = "#256F46"
@@ -22,3 +22,15 @@ AMARELO ="#856C00"
 AMARELO_HOVER="#B19000"
 
 PLACEHOLDER = "#7A7A7A"
+
+# Cores textos
+
+TX_VERDE = "#d5e8dd"
+
+TX_VERMELHO = "#f6d5d5"
+
+TX_AZUL = "#d2e1ed"
+
+TX_AMARELO = "#e7e2cc"
+
+TX_CINZA = "#dddddd"

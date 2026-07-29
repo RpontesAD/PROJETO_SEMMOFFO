@@ -59,23 +59,27 @@ Arquivo: {nome_arquivo}
         botoes.pack(anchor="e", padx=15, pady=10)
 
         ctk.CTkButton(
-            botoes, text="Ver detalhes",
+            botoes, 
+            text="Ver detalhes",
+            text_color=TX_VERDE,
             font=FONTE_NORMAL_BOLD,
             fg_color=VERDE,      # Verde
             hover_color=VERDE_HOVER,   # Verde mais escuro
-            text_color="white",
             command=self.ver_detalhes
             ).pack(side="left", padx=5)
         
         ctk.CTkButton(
             botoes,
             text="Editar Rotina",
+            text_color=TX_AZUL,
             font=FONTE_NORMAL_BOLD,
             command=self.editar
         ).pack(side="left", padx=5)
         
         ctk.CTkButton(
-            botoes, text="Inativar",
+            botoes, 
+            text="Inativar",
+            text_color=TX_VERMELHO,
             font=FONTE_NORMAL_BOLD,
             fg_color=VERMELHO,
             hover_color=VERMELHO_HOVER,
@@ -160,7 +164,8 @@ Arquivo: {nome_arquivo}
         ctk.CTkButton(
             botoes,
             text="Restaurar",
-            font=FONTE_PEQUENA,
+            text_color=TX_VERDE,
+            font=FONTE_PEQUENA_BOLD,
             fg_color=VERDE,
             hover_color=VERDE_HOVER,
             command=self.restaurar
@@ -169,9 +174,10 @@ Arquivo: {nome_arquivo}
         ctk.CTkButton(
             botoes,
             text="Excluir",
-            font=FONTE_PEQUENA,
-            fg_color=VERDE,
-            hover_color=VERDE_HOVER,
+            text_color=TX_VERMELHO,
+            font=FONTE_PEQUENA_BOLD,
+            fg_color=VERMELHO,
+            hover_color=VERMELHO_HOVER,
             command=self.excluir
         ).pack(side="left", padx=5)
 

@@ -2,6 +2,7 @@ import customtkinter as ctk
 from database import listar_rotinas_inativas, restaurar_rotina, excluir_rotina
 from monitor import verificar_rotina
 from ui.componentes import CardRotinaInativa
+from ui.estilos import *
 
 
 class TelaInativas(ctk.CTkFrame):
@@ -57,7 +58,7 @@ class TelaInativas(ctk.CTkFrame):
         ctk.CTkLabel(
             topo,
             text="Rotinas Inativas",
-            font=("Arial",24,"bold")
+            font=FONTE_TITULO
         ).pack(side="left", padx=20)
 
         self.lista_rotinas = ctk.CTkScrollableFrame(self)
@@ -82,7 +83,7 @@ class TelaInativas(ctk.CTkFrame):
         ctk.CTkLabel(
             janela,
             text=f"Restaurar a rotina\n\n'{nome}'?",
-            font=("Arial",18,"bold"),
+            font=FONTE_SUBTITULO,
             justify="center"
         ).pack(pady=(20,10))
 
@@ -97,14 +98,16 @@ class TelaInativas(ctk.CTkFrame):
         ctk.CTkButton(
             botoes,
             text="Cancelar",
+            font=FONTE_PEQUENA_BOLD,
             command=janela.destroy
         ).pack(side="left", padx=8)
 
         ctk.CTkButton(
             botoes,
             text="Restaurar",
-            fg_color="#2E8B57",
-            hover_color="#256F46",
+            font=FONTE_PEQUENA_BOLD,
+            fg_color=VERDE,
+            hover_color=VERDE_HOVER,
             command=lambda: self.restaurar(id_rotina, janela)
         ).pack(side="left", padx=8)
         
@@ -127,8 +130,8 @@ class TelaInativas(ctk.CTkFrame):
         ctk.CTkLabel(
             janela,
             text="Excluir permanentemente?",
-            font=("Arial",18,"bold"),
-            text_color="#D32F2F"
+            font=FONTE_SUBTITULO,
+            text_color=VERMELHO
         ).pack(pady=(20,10))
 
         ctk.CTkLabel(
@@ -138,6 +141,7 @@ class TelaInativas(ctk.CTkFrame):
                 "Todos os monitoramentos também serão excluídos.\n\n"
                 "Esta ação não pode ser desfeita."
             ),
+            font=FONTE_PEQUENA_BOLD,
             justify="center"
         ).pack()
 
@@ -147,14 +151,16 @@ class TelaInativas(ctk.CTkFrame):
         ctk.CTkButton(
             botoes,
             text="Cancelar",
+            font=FONTE_PEQUENA_BOLD,
             command=janela.destroy
         ).pack(side="left", padx=8)
 
         ctk.CTkButton(
             botoes,
             text="Excluir",
-            fg_color="#D32F2F",
-            hover_color="#B71C1C",
+            font=FONTE_PEQUENA_BOLD,
+            fg_color=VERMELHO,
+            hover_color=VERMELHO_HOVER,
             command=lambda: self.excluir(id_rotina, janela)
         ).pack(side="left", padx=8)
         
