@@ -246,11 +246,25 @@ class TelaDetalhes(ctk.CTkFrame):
         ).pack(anchor="w", padx=15)
 
         # Status
+        status = monitoramento["status"]
+
+        if status == "Atualizado":
+            cor = VERDE
+            texto = "● Atualizado"
+        else:
+            cor = VERMELHO
+            texto = "● Atrasado"
+
         ctk.CTkLabel(
             card,
-            text=monitoramento["status"],
-            font=FONTE_NORMAL
-        ).pack(anchor="w", padx=15, pady=(8, 0))
+            text=texto,
+            text_color=cor,
+            font=FONTE_NORMAL_BOLD
+        ).pack(
+            anchor="w",
+            padx=15,
+            pady=(8, 0)
+        )
         
         # Data de modificação
         ctk.CTkLabel(

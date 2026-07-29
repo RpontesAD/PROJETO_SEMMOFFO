@@ -215,10 +215,9 @@ def verificar_arquivo(caminho):
 def verificar_status(data_modificacao, ultimo_prazo):
 
     if data_modificacao >= ultimo_prazo:
-        return "🟢 Atualizado"
+        return "Atualizado"
 
-    else:
-        return "🔴 Atrasado"
+    return "Atrasado"
     
 def verificar_rotina(id_rotina):
 
