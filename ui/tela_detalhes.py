@@ -235,5 +235,26 @@ class TelaDetalhes(ctk.CTkFrame):
             text=monitoramento["caminho"],
             font=FONTE_PEQUENA
         ).pack(anchor="w", padx=15, pady=(0, 10))
+        
+        ctk.CTkButton(
+            card,
+            text="Editar",
+            text_color=TX_AZUL,
+            font=FONTE_PEQUENA_BOLD,
+            width=80,
+            command=lambda: self.editar_monitoramento(monitoramento)
+        ).pack(
+            anchor="e",
+            padx=15,
+            pady=(0,10)
+        )
+        
+    def editar_monitoramento(self, monitoramento):
+
+        self.app.trocar_tela(
+            "cadastro_monitoramento",
+            id_rotina=self.id_rotina,
+            id_monitoramento=monitoramento["id"]
+        )
             
     

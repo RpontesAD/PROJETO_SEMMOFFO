@@ -267,6 +267,7 @@ def verificar_rotina(id_rotina):
 
     for monitoramento in monitoramentos:
 
+        id_monitoramento = monitoramento["id"]
         tipo = monitoramento["tipo"]
         pasta = monitoramento["pasta"]
         arquivo = monitoramento["arquivo"]
@@ -309,6 +310,7 @@ def verificar_rotina(id_rotina):
 
 
         resultado["arquivos"].append({
+            "id": id_monitoramento,
             "tipo": tipo,
             "nome": nome,
             "arquivo": nome_arquivo,

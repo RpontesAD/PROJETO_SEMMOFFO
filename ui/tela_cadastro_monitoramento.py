@@ -9,13 +9,24 @@ from tkinter import filedialog
 
 class TelaCadastroMonitoramento(ctk.CTkFrame):
 
-    def __init__(self, parent, app, id_rotina):
+    def __init__(
+        self,
+        parent,
+        app,
+        id_rotina,
+        id_monitoramento=None
+    ):
         super().__init__(parent)
 
         self.app = app
         self.id_rotina = id_rotina
+        self.id_monitoramento = id_monitoramento
+        
 
         self.criar_widgets()
+        
+        if self.id_monitoramento:
+            self.carregar_monitoramento()
         
     def criar_widgets(self):
 
@@ -32,11 +43,17 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
             command=self.voltar
         ).pack(side="left")
 
+        titulo = (
+            "Editar Monitoramento"
+            if self.id_monitoramento
+            else "Novo Monitoramento"
+        )
+        
         ctk.CTkLabel(
             topo,
-            text="Novo Monitoramento",
+            text=titulo,
             font=FONTE_TITULO
-        ).pack(side="left", padx=20)
+        )
 
         # ---------- Formulário ----------
 
@@ -155,7 +172,7 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
             text="Cancelar",
             font=FONTE_PEQUENA_BOLD,
             fg_color=VERMELHO, 
-            hover_color=VERDE_HOVER,
+            hover_color=VERMELHO_HOVER,
             text_color=TX_VERMELHO,
             command=self.voltar
         ).pack(side="left", padx=10)
@@ -202,6 +219,44 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
                 self.entry_caminho.delete(0, "end")
                 self.entry_caminho.insert(0, caminho)
                 
+    def carregar_monitoramento(self):
+
+        monitoramento = buscar_monitoramento(
+            self.id_monitoramento
+        )
+
+        if not monitoramento:
+            return
+
+        self.entry_nome.insert(
+            0,
+            monitoramento["nome"]
+        )
+
+        self.tipo.set(
+            monitoramento["tipo"]
+        )
+
+        self.entry_caminho.insert(
+            0,
+            (
+                os.path.join(
+                    monitoramento["pasta"],
+                    monitoramento["arquivo"]
+                )
+                if monitoramento["arquivo"]
+                else monitoramento["pasta"]
+            )
+        )
+
+        self.obrigatorio.set(
+            bool(monitoramento["obrigatorio"])
+        )
+
+        self.alterar_tipo(
+            monitoramento["tipo"]
+        )
+                
     def salvar(self):
 
         nome = self.entry_nome.get().strip()
@@ -223,14 +278,29 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
 
             pasta = caminho
             arquivo = None
+            
+        obrigatorio = 1 if self.obrigatorio.get() else 0
 
-        criar_monitoramento(
-            rotina_id=self.id_rotina,
-            nome=nome,
-            tipo=tipo,
-            pasta=pasta,
-            arquivo=arquivo,
-            obrigatorio=int(self.obrigatorio.get())
-        )
+        if self.id_monitoramento:
+
+            atualizar_monitoramento(
+                self.id_monitoramento,
+                nome,
+                tipo,
+                pasta,
+                arquivo,
+                obrigatorio
+            )
+
+        else:
+
+            criar_monitoramento(
+                self.id_rotina,
+                nome,
+                tipo,
+                pasta,
+                arquivo,
+                obrigatorio
+            )
 
         self.voltar()

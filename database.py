@@ -308,7 +308,6 @@ def listar_monitoramentos(rotina_id):
 
     return [dict(m) for m in monitoramentos]
 
-# Função que busca monitoramento expecífico
 def buscar_monitoramento(id_monitoramento):
 
     conexao = conectar()
@@ -318,13 +317,18 @@ def buscar_monitoramento(id_monitoramento):
         SELECT *
         FROM monitoramentos
         WHERE id = ?
-    """, (id_monitoramento,))
+    """, (
+        id_monitoramento,
+    ))
 
     monitoramento = cursor.fetchone()
 
     conexao.close()
 
-    return [dict(m) for m in monitoramentos]
+    if monitoramento:
+        return dict(monitoramento)
+
+    return None
 
 # Função que conta quantos monitoramentos tem em uma rotina
 def contar_monitoramentos(rotina_id):
@@ -347,6 +351,7 @@ def contar_monitoramentos(rotina_id):
 # Função para atualizar DADOS do monitoramento
 def atualizar_monitoramento(
     id_monitoramento,
+    nome,
     tipo,
     pasta,
     arquivo,
@@ -360,7 +365,7 @@ def atualizar_monitoramento(
         UPDATE monitoramentos
 
         SET 
-            nome = ?
+            nome = ?,
             tipo = ?,
             pasta = ?,
             arquivo = ?,
