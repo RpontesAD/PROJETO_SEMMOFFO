@@ -246,7 +246,7 @@ class TelaCadastro(ctk.CTkFrame):
             padx=10
         )
         
-        self.alterar_periodo("Diário")
+        self.alterar_periodo("Diario")
 
     def criar_campos_condicionais(self):
 
@@ -494,7 +494,7 @@ class TelaCadastro(ctk.CTkFrame):
         executavel = self.executavel_entry.get()
 
         periodo_map = {
-            "Diário": "DIARIO",
+            "Diario": "DIARIO",
             "Semanal": "SEMANAL",
             "Mensal": "MENSAL"
         }
@@ -574,14 +574,16 @@ class TelaCadastro(ctk.CTkFrame):
             
         if self.id_rotina:
 
-            self.mostrar_sucesso(
-                "Rotina atualizada com sucesso!"
+            self.app.notificar(
+                "Rotina atualizada com sucesso!",
+                "sucesso"
             )
 
         else:
 
-            self.mostrar_sucesso(
-                "Rotina criada com sucesso!"
+            self.app.notificar(
+                "Rotina criada com sucesso!",
+                "sucesso"
             )
         
     def carregar_rotina(self):
@@ -619,29 +621,3 @@ class TelaCadastro(ctk.CTkFrame):
                 dias_semana[rotina["dia_semana"]]
             )
         
-    def mostrar_sucesso(self, mensagem):
-
-        janela = ctk.CTkToplevel(self)
-
-        janela.title("Sucesso")
-        janela.geometry("350x150")
-        janela.grab_set()
-        janela.resizable(False, False)
-
-        ctk.CTkLabel(
-            janela,
-            text="✅",
-            font=("Arial", 30)
-        ).pack(pady=(15,0))
-
-        ctk.CTkLabel(
-            janela,
-            text=mensagem,
-            font=("Arial", 16)
-        ).pack(pady=10)
-
-        ctk.CTkButton(
-            janela,
-            text="OK",
-            command=janela.destroy
-        ).pack(pady=5)

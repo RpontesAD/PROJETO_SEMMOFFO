@@ -197,3 +197,45 @@ Arquivo: {nome_arquivo}
                 self.id_rotina,
                 self.nome
             )
+
+class Notificacao(ctk.CTkFrame):
+
+    CORES = {
+        "sucesso": ("#16A34A", "✓"),
+        "erro": ("#DC2626", "✕"),
+        "aviso": ("#D97706", "⚠"),
+        "info": ("#2563EB", "ℹ")
+    }
+
+    def __init__(
+        self,
+        parent,
+        mensagem,
+        tipo="info",
+        duracao=3000,
+        width=350,
+        height=55
+    ):
+        super().__init__(
+            parent,
+            width=width,
+            height=height,
+            corner_radius=10,
+            fg_color="#2B2B2B"
+        )
+
+        cor, icone = self.CORES.get(tipo, self.CORES["info"])
+
+        self.configure(border_width=2, border_color=cor)
+
+        ctk.CTkLabel(
+            self,
+            text=f"{icone}  {mensagem}",
+            text_color="white",
+            font=("Roboto", 13)
+        ).pack(
+            padx=15,
+            pady=10
+        )
+
+        self.after(duracao, self.destroy)

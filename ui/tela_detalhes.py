@@ -2,6 +2,10 @@ import customtkinter as ctk
 from database import buscar_rotina, listar_monitoramentos
 from ui.estilos import *
 from monitor import verificar_rotina
+import subprocess
+import threading
+import os
+from tkinter import messagebox
 
 
 class TelaDetalhes(ctk.CTkFrame):
@@ -160,7 +164,21 @@ class TelaDetalhes(ctk.CTkFrame):
             font=FONTE_NORMAL_BOLD,
             fg_color=VERDE,   
             hover_color=VERDE_HOVER,
+            command=self.executar_rotina
         ).pack(side="bottom", padx=5)
+
+        self.status = ctk.CTkLabel(
+            self,
+            text="",
+            font=FONTE_PEQUENA,
+            anchor="w"
+        )
+
+        self.status.pack(
+            fill="x",
+            padx=15,
+            pady=(0, 10)
+        )
 
 
     def voltar(self):
@@ -256,5 +274,54 @@ class TelaDetalhes(ctk.CTkFrame):
             id_rotina=self.id_rotina,
             id_monitoramento=monitoramento["id"]
         )
-            
-    
+
+    def _executar_rotina(self):
+        executavel = self.rotina.get("executavel")
+
+        if not executavel:
+            self.after(
+                0,
+                lambda: self.app.notificar(
+                    "Nenhum executável foi cadastrado.",
+                    "erro"
+                )
+            )
+            return
+
+        if not os.path.exists(executavel):
+            self.after(
+                0,
+                lambda: self.app.notificar(
+                    "Executável não encontrado.",
+                    "erro"
+                )
+            )
+            return
+
+        try:
+            subprocess.run(executavel, shell=True)
+
+            self.after(
+                0,
+                lambda: self.app.notificar(
+                    "Rotina executada com sucesso.",
+                    "sucesso"
+                )
+            )
+
+            self.after(0, self.carregar_monitoramentos)
+
+        except Exception as e:
+            erro = str(e)
+
+            self.after(
+                0,
+                lambda: self.app.notificar(
+                    erro,
+                    "erro",
+                    tempo=5000
+                )
+            )
+                
+    def executar_rotina(self):
+        threading.Thread(target=self._executar_rotina, daemon=True).start()
