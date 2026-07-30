@@ -86,7 +86,7 @@ class TelaPrincipal(ctk.CTkFrame):
 
         titulo = ctk.CTkLabel(
             topo,
-            text="SEMMOFFO - Rotinas",
+            text="SEMMOFFO - ROTINAS",
             font= FONTE_TITULO
         )
 
@@ -155,7 +155,8 @@ class TelaPrincipal(ctk.CTkFrame):
 
         self.app.notificar(
             "Rotina inativada com sucesso.",
-            "sucesso"
+            "sucesso",
+            bg_color="#2b2b2b"
         )
 
         self.carregar_rotinas()

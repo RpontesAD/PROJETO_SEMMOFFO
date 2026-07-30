@@ -45,7 +45,7 @@ class TelaCadastro(ctk.CTkFrame):
         self.grid_columnconfigure(0, weight=1)
 
 
-        texto_titulo = "Editar Rotina" if self.id_rotina else "Nova Rotina"
+        texto_titulo = "EDITAR ROTINA" if self.id_rotina else "NOVA ROTINA"
 
         titulo = ctk.CTkLabel(
             self,
@@ -199,7 +199,7 @@ class TelaCadastro(ctk.CTkFrame):
         botao_selecionar = ctk.CTkButton(
             frame_executavel,
             text="Selecionar",
-            font=FONTE_PEQUENA,
+            font=FONTE_PEQUENA_BOLD,
             fg_color=CINZA,
             hover_color=CINZA_HOVER,
             width=80,
@@ -227,9 +227,8 @@ class TelaCadastro(ctk.CTkFrame):
         ctk.CTkButton(
             frame_botoes,
             text="← Voltar",
+            text_color=TX_AZUL,
             font=FONTE_NORMAL_BOLD,
-            fg_color="gray40",
-            hover_color="gray30",
             command=self.voltar
         ).pack(
             side="left",
@@ -238,7 +237,10 @@ class TelaCadastro(ctk.CTkFrame):
 
         ctk.CTkButton(
             frame_botoes,
-            text="Salvar rotina",
+            text="Salvar",
+            fg_color=VERDE,
+            hover_color=VERDE_HOVER,
+            text_color=TX_VERDE,
             font=FONTE_NORMAL_BOLD,
             command=self.salvar_rotina
         ).pack(
@@ -576,14 +578,16 @@ class TelaCadastro(ctk.CTkFrame):
 
             self.app.notificar(
                 "Rotina atualizada com sucesso!",
-                "sucesso"
+                "sucesso",
+                bg_color="#333333"
             )
 
         else:
 
             self.app.notificar(
                 "Rotina criada com sucesso!",
-                "sucesso"
+                "sucesso",
+                bg_color="#333333"
             )
         
     def carregar_rotina(self):

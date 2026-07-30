@@ -54,7 +54,7 @@ Periodicidade: {periodicidade}
 
         info.pack(anchor="w", padx=15)
 
-        botoes = ctk.CTkFrame(self)
+        botoes = ctk.CTkFrame(self, fg_color="#2b2b2b")
         botoes.pack(anchor="e", padx=15, pady=10)
 
         ctk.CTkButton(
@@ -157,14 +157,14 @@ Arquivo: {nome_arquivo}
 
         info.pack(anchor="w", padx=15)
 
-        botoes = ctk.CTkFrame(self)
+        botoes = ctk.CTkFrame(self, fg_color="#2b2b2b")
         botoes.pack(anchor="e", padx=15, pady=10)
 
         ctk.CTkButton(
             botoes,
             text="Restaurar",
             text_color=TX_VERDE,
-            font=FONTE_PEQUENA_BOLD,
+            font=FONTE_NORMAL_BOLD,
             fg_color=VERDE,
             hover_color=VERDE_HOVER,
             command=self.restaurar
@@ -174,7 +174,7 @@ Arquivo: {nome_arquivo}
             botoes,
             text="Excluir",
             text_color=TX_VERMELHO,
-            font=FONTE_PEQUENA_BOLD,
+            font=FONTE_NORMAL_BOLD,
             fg_color=VERMELHO,
             hover_color=VERMELHO_HOVER,
             command=self.excluir
@@ -214,14 +214,19 @@ class Notificacao(ctk.CTkFrame):
         tipo="info",
         duracao=3000,
         width=350,
-        height=55
+        height=55,
+        bg_color=None
     ):
+        if bg_color is None:
+            bg_color = parent.cget("fg_color")
+        
         super().__init__(
             parent,
             width=width,
             height=height,
             corner_radius=10,
-            fg_color="#2B2B2B"
+            fg_color="#292a2b",
+            bg_color=bg_color
         )
 
         cor, icone = self.CORES.get(tipo, self.CORES["info"])
@@ -232,7 +237,7 @@ class Notificacao(ctk.CTkFrame):
             self,
             text=f"{icone}  {mensagem}",
             text_color="white",
-            font=("Roboto", 13)
+            font=FONTE_PEQUENA_BOLD
         ).pack(
             padx=15,
             pady=10
@@ -268,7 +273,7 @@ class JanelaConfirmacao(ctk.CTkToplevel):
         ctk.CTkLabel(
             self,
             text=titulo,
-            font=("Roboto", 18, "bold")
+            font=FONTE_SUBTITULO
         ).grid(
             row=0,
             column=0,
@@ -288,7 +293,7 @@ class JanelaConfirmacao(ctk.CTkToplevel):
 
         frame_botoes = ctk.CTkFrame(
             self,
-            fg_color="transparent"
+            fg_color="#242424"
         )
 
         frame_botoes.grid(

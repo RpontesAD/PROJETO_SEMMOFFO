@@ -55,17 +55,18 @@ class App(ctk.CTk):
     def mostrar_tela_principal(self):
         self.trocar_tela("principal")
 
-    def notificar(self, mensagem, tipo="info"):
+    def notificar(self, mensagem, tipo="info", bg_color=None):
 
         notificacao = Notificacao(
             self,
             mensagem,
-            tipo
+            tipo,
+            bg_color=bg_color
         )
 
         largura = 350
-        altura = 55
-        margem = 20
+        altura = 75
+        margem = 35
 
         indice = len(self.notificacoes)
 

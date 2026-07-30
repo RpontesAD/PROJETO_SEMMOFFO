@@ -52,12 +52,13 @@ class TelaInativas(ctk.CTkFrame):
         ctk.CTkButton(
             topo,
             text="← Voltar",
+            font=FONTE_PEQUENA_BOLD,
             command=self.voltar
         ).pack(side="left")
 
         ctk.CTkLabel(
             topo,
-            text="Rotinas Inativas",
+            text="ROTINAS INATIVAS",
             font=FONTE_TITULO
         ).pack(side="left", padx=20)
 
@@ -92,7 +93,7 @@ class TelaInativas(ctk.CTkFrame):
             text="Ela voltará para a lista de rotinas ativas."
         ).pack()
 
-        botoes = ctk.CTkFrame(janela, fg_color="transparent")
+        botoes = ctk.CTkFrame(janela, fg_color="#242424")
         botoes.pack(pady=20)
 
         ctk.CTkButton(
@@ -145,7 +146,7 @@ class TelaInativas(ctk.CTkFrame):
             justify="center"
         ).pack()
 
-        botoes = ctk.CTkFrame(janela, fg_color="transparent")
+        botoes = ctk.CTkFrame(janela, fg_color="#242424")
         botoes.pack(pady=20)
 
         ctk.CTkButton(

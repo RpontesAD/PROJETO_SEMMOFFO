@@ -44,16 +44,17 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
         ).pack(side="left")
 
         titulo = (
-            "Editar Monitoramento"
+            "EDITAR MONITORAMENTO"
             if self.id_monitoramento
-            else "Novo Monitoramento"
+            else "NOVO MONITORAMENTO"
         )
         
+        # Adicionado .pack() com alinhamento e espaçamento
         ctk.CTkLabel(
             topo,
             text=titulo,
             font=FONTE_TITULO
-        )
+        ).pack(side="left", padx=15)
 
         # ---------- Formulário ----------
 
@@ -137,9 +138,9 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
 
         ctk.CTkButton(
             frame_caminho,
-            text="Procurar",
+            text="Selecionar",
             text_color=TX_CINZA,
-            font=FONTE_PEQUENA,
+            font=FONTE_PEQUENA_BOLD,
             fg_color=CINZA,
             hover_color=CINZA_HOVER,
             command=self.procurar
@@ -170,7 +171,7 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
         ctk.CTkButton(
             rodape,
             text="Cancelar",
-            font=FONTE_PEQUENA_BOLD,
+            font=FONTE_NORMAL_BOLD,
             fg_color=VERMELHO, 
             hover_color=VERMELHO_HOVER,
             text_color=TX_VERMELHO,
@@ -180,7 +181,7 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
         ctk.CTkButton(
             rodape,
             text="Salvar",
-            font=FONTE_PEQUENA_BOLD,
+            font=FONTE_NORMAL_BOLD,
             fg_color=VERDE,
             hover_color=VERDE_HOVER,
             text_color=TX_VERDE,

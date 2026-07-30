@@ -155,7 +155,7 @@ class TelaDetalhes(ctk.CTkFrame):
 
         # ---------- Botões ----------
 
-        rodape = ctk.CTkFrame(self)
+        rodape = ctk.CTkFrame(self, fg_color="#333333")
         rodape.pack(fill="x", padx=15, pady=(0, 15))
 
         ctk.CTkButton(
@@ -167,19 +167,6 @@ class TelaDetalhes(ctk.CTkFrame):
             hover_color=VERDE_HOVER,
             command=self.executar_rotina
         ).pack(side="bottom", padx=5)
-
-        self.status = ctk.CTkLabel(
-            self,
-            text="",
-            font=FONTE_PEQUENA,
-            anchor="w"
-        )
-
-        self.status.pack(
-            fill="x",
-            padx=15,
-            pady=(0, 10)
-        )
 
 
     def voltar(self):
@@ -340,7 +327,8 @@ class TelaDetalhes(ctk.CTkFrame):
 
         self.app.notificar(
             "Monitoramento excluído com sucesso.",
-            "sucesso"
+            "sucesso",
+            bg_color="#2b2b2b"
         )
 
         self.carregar_monitoramentos()
@@ -353,7 +341,8 @@ class TelaDetalhes(ctk.CTkFrame):
                 0,
                 lambda: self.app.notificar(
                     "Nenhum executável foi cadastrado.",
-                    "erro"
+                    "erro",
+                    bg_color="#2b2b2b"
                 )
             )
             return
@@ -363,7 +352,8 @@ class TelaDetalhes(ctk.CTkFrame):
                 0,
                 lambda: self.app.notificar(
                     "Executável não encontrado.",
-                    "erro"
+                    "erro",
+                    bg_color="#2b2b2b"
                 )
             )
             return
@@ -375,7 +365,8 @@ class TelaDetalhes(ctk.CTkFrame):
                 0,
                 lambda: self.app.notificar(
                     "Rotina executada com sucesso.",
-                    "sucesso"
+                    "sucesso",
+                    bg_color="#2b2b2b"
                 )
             )
 
