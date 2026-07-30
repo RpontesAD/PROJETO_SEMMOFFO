@@ -295,12 +295,12 @@ def verificar_rotina(id_rotina):
 
         if not info["existe"]:
 
-            status = "🔴 Arquivo não encontrado"
+            status = "Arquivo não encontrado"
 
         else:
 
             if prazo is None:
-                status = "⚠️ Configuração inválida"
+                status = "Configuração inválida"
             else:
                 status = verificar_status(
                     info["data_modificacao"],

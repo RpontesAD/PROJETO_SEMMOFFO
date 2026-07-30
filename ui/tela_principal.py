@@ -117,8 +117,8 @@ class TelaPrincipal(ctk.CTkFrame):
             text="Rotinas Inativas",
             text_color= TX_CINZA,
             font= FONTE_NORMAL_BOLD,
-            fg_color="#555555",
-            hover_color="#444444",
+            fg_color=CINZA,
+            hover_color=CINZA_HOVER,
             command=self.abrir_inativas
         ).pack(side="right", padx=5)
 

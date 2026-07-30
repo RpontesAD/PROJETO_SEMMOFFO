@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from ui.estilos import *
+import tkinter as tk
 
 class CardRotina(ctk.CTkFrame):
 
@@ -28,34 +29,80 @@ class CardRotina(ctk.CTkFrame):
             nome_arquivo = arquivo["arquivo"]
             data_modificacao = arquivo["data_modificacao"]
         else:
-            status = "⚪ Sem monitoramentos"
+            status = "⚠ Sem monitoramentos"
             nome_arquivo = "-"
             data_modificacao = "-"
 
         titulo = ctk.CTkLabel(
             self,
             text=nome,
-            font=FONTE_SUBTITULO
+            text_color="#38BDF8",
+            font=FONTE_SUBTITULO,
         )
 
         titulo.pack(anchor="w", padx=15, pady=(10, 5))
         
         # Telinha das rotinas
-        info = ctk.CTkLabel(
-            self,
-            text=f"""
-Status: {status}
+        info = ctk.CTkFrame(self, fg_color="transparent")
+        info.pack(anchor="w", padx=15, pady=(0, 10))
+        
+        cor_status = "#22C55E"  # Verde
 
-Monitoramentos: {quantidade}
-Periodicidade: {periodicidade}
+        if "Atrasado" in status:
+            cor_status = "#EF4444"  # Vermelho
+        elif "Sem monitoramentos" in status:
+            cor_status = "#F59E0B"  # Amarelo
+            
+        linha_status = ctk.CTkFrame(info, fg_color="transparent")
+        linha_status.pack(anchor="w")
 
-"""
-        )
+        ctk.CTkLabel(
+            linha_status,
+            text="Status: ",
+            font=FONTE_NORMAL
+        ).pack(side="left")
 
-        info.pack(anchor="w", padx=15)
+        ctk.CTkLabel(
+            linha_status,
+            text=status,
+            text_color=cor_status,
+            font=FONTE_NORMAL_BOLD
+        ).pack(side="left")    
+        
+        ctk.CTkLabel(
+            info,
+            text=f"Monitoramentos: {quantidade}",
+            font=FONTE_NORMAL
+        ).pack(anchor="w", pady=(5, 0))
+
+        ctk.CTkLabel(
+            info,
+            text=f"Periodicidade: {periodicidade}",
+            font=FONTE_NORMAL
+        ).pack(anchor="w")
 
         botoes = ctk.CTkFrame(self, fg_color="#2b2b2b")
         botoes.pack(anchor="e", padx=15, pady=10)
+        
+        linha = tk.Canvas(
+            self,
+            height=2,
+            bg="#2b2b2b",
+            highlightthickness=0,
+            bd=0
+        )
+
+        linha.create_line(
+            0, 1, 1000, 1,
+            fill="#555555",
+            dash=(6, 4)
+        )
+
+        linha.pack(
+            fill="x",
+            padx=15,
+            pady=(10, 0)
+        )
 
         ctk.CTkButton(
             botoes, 
@@ -179,7 +226,6 @@ Arquivo: {nome_arquivo}
             hover_color=VERMELHO_HOVER,
             command=self.excluir
         ).pack(side="left", padx=5)
-
 
     def restaurar(self):
 

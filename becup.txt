@@ -61,7 +61,19 @@
 
 
 
+        info = ctk.CTkLabel(
+            self,
+            text=f"""
+Status: {status}
 
+Monitoramentos: {quantidade}
+
+Arquivo: {nome_arquivo}
+Última modificação: {data_modificacao}
+"""
+        )
+
+        info.pack(anchor="w", padx=15)
 
 
 
