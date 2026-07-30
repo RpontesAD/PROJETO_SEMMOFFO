@@ -55,7 +55,7 @@ class TelaDetalhes(ctk.CTkFrame):
             command=self.novo_monitoramento
         ).pack(
             side="right",
-            padx=10
+            padx=0
         )
 
         # ---------- Informações ----------
@@ -132,7 +132,7 @@ class TelaDetalhes(ctk.CTkFrame):
             text="\n".join(informacoes),
             justify="left",
             anchor="w",
-            font=FONTE_NORMAL
+            font=FONTE_NORMAL_BOLD
         ).pack(
             anchor="w",
             padx=15,
