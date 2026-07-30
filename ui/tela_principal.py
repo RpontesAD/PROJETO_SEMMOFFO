@@ -28,9 +28,9 @@ class TelaPrincipal(ctk.CTkFrame):
         
             ctk.CTkLabel(
                 self.lista_rotinas,
-                text="Nenhuma rotina cadastrada...",
-                font=FONTE_NORMAL,
-                text_color="gray60"
+                text='Clique em "+ Nova Rotina" para criar sua 1ª rotina...',
+                font=FONTE_VAZIO,
+                text_color="#5A5A5A"
             ).pack(
                 expand=True,
                 pady=40

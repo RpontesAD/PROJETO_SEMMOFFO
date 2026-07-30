@@ -51,16 +51,17 @@ class TelaInativas(ctk.CTkFrame):
 
         ctk.CTkButton(
             topo,
-            text="← Voltar",
+            text="←",
             font=FONTE_PEQUENA_BOLD,
+            width=50,
             command=self.voltar
-        ).pack(side="left")
+        ).pack(side="left", padx=15, pady=15)
 
         ctk.CTkLabel(
             topo,
             text="ROTINAS INATIVAS",
             font=FONTE_TITULO
-        ).pack(side="left", padx=20)
+        ).pack(side="left",)
 
         self.lista_rotinas = ctk.CTkScrollableFrame(self)
 
@@ -138,10 +139,17 @@ class TelaInativas(ctk.CTkFrame):
         ctk.CTkLabel(
             janela,
             text=(
-                f"A rotina '{nome}' será removida do banco de dados.\n\n"
+                f'A rotina "{nome}" será removida do banco de dados.\n\n'
                 "Todos os monitoramentos também serão excluídos.\n\n"
-                "Esta ação não pode ser desfeita."
             ),
+            font=FONTE_PEQUENA_BOLD,
+            justify="center"
+        ).pack()
+
+        ctk.CTkLabel(
+            janela,
+            text=("Esta ação não pode ser desfeita."),
+            text_color="#ffc400",
             font=FONTE_PEQUENA_BOLD,
             justify="center"
         ).pack()
@@ -153,7 +161,8 @@ class TelaInativas(ctk.CTkFrame):
             botoes,
             text="Cancelar",
             font=FONTE_PEQUENA_BOLD,
-            command=janela.destroy
+            command=janela.destroy,
+            width=100
         ).pack(side="left", padx=8)
 
         ctk.CTkButton(
@@ -162,6 +171,7 @@ class TelaInativas(ctk.CTkFrame):
             font=FONTE_PEQUENA_BOLD,
             fg_color=VERMELHO,
             hover_color=VERMELHO_HOVER,
+            width=100,
             command=lambda: self.excluir(id_rotina, janela)
         ).pack(side="left", padx=8)
         

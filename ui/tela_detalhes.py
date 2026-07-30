@@ -32,18 +32,18 @@ class TelaDetalhes(ctk.CTkFrame):
 
         ctk.CTkButton(
             topo,
-            text="← Voltar",
+            text="←",
             font=FONTE_PEQUENA_BOLD,
             text_color=TX_AZUL,
             command=self.voltar,
-            width=100
-        ).pack(side="left")
+            width=50
+        ).pack(side="left", padx=15, pady=15)
 
         ctk.CTkLabel(
             topo,
             text=self.rotina["nome"],
             font=FONTE_TITULO
-        ).pack(side="left", padx=20)
+        ).pack(side="left")
         
         ctk.CTkButton(
             topo,
@@ -55,7 +55,7 @@ class TelaDetalhes(ctk.CTkFrame):
             command=self.novo_monitoramento
         ).pack(
             side="right",
-            padx=0
+            padx=15
         )
 
         # ---------- Informações ----------
@@ -192,9 +192,9 @@ class TelaDetalhes(ctk.CTkFrame):
 
             ctk.CTkLabel(
                 self.lista_monitoramentos,
-                text="Nenhum monitoramento cadastrado...",
-                font=FONTE_NORMAL,
-                text_color="gray60"
+                text='Clique em "+ Novo Monitoramento" para criar seu 1º monitoramento...',
+                font=FONTE_VAZIO,
+                text_color= "#5A5A5A"
             ).pack(
                 expand=True,
                 pady=40
@@ -236,10 +236,10 @@ class TelaDetalhes(ctk.CTkFrame):
         status = monitoramento["status"]
 
         if status == "Atualizado":
-            cor = VERDE
+            cor = COR_ATUALIZADO
             texto = "● Atualizado"
         else:
-            cor = VERMELHO
+            cor = COR_ATUALIZADO
             texto = "● Atrasado"
 
         ctk.CTkLabel(

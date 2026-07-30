@@ -46,12 +46,18 @@ class CardRotina(ctk.CTkFrame):
         info = ctk.CTkFrame(self, fg_color="transparent")
         info.pack(anchor="w", padx=15, pady=(0, 10))
         
-        cor_status = "#22C55E"  # Verde
+        CORES_STATUS = {
+            "Atualizado": COR_ATUALIZADO,
+            "Atrasado": COR_ATRASADO,
+            "Sem monitoramentos": "#F59E0B"
+        }  # Verde
 
-        if "Atrasado" in status:
-            cor_status = "#EF4444"  # Vermelho
-        elif "Sem monitoramentos" in status:
-            cor_status = "#F59E0B"  # Amarelo
+        cor_status = COR_ATUALIZADO
+
+        for texto, cor in CORES_STATUS.items():
+            if texto in status:
+                cor_status = cor
+                break
             
         linha_status = ctk.CTkFrame(info, fg_color="transparent")
         linha_status.pack(anchor="w")
@@ -59,7 +65,7 @@ class CardRotina(ctk.CTkFrame):
         ctk.CTkLabel(
             linha_status,
             text="Status: ",
-            font=FONTE_NORMAL
+            font=FONTE_NORMAL_BOLD
         ).pack(side="left")
 
         ctk.CTkLabel(
@@ -72,17 +78,22 @@ class CardRotina(ctk.CTkFrame):
         ctk.CTkLabel(
             info,
             text=f"Monitoramentos: {quantidade}",
-            font=FONTE_NORMAL
+            font=FONTE_NORMAL_BOLD
         ).pack(anchor="w", pady=(5, 0))
 
         ctk.CTkLabel(
             info,
             text=f"Periodicidade: {periodicidade}",
-            font=FONTE_NORMAL
+            font=FONTE_NORMAL_BOLD
         ).pack(anchor="w")
 
         botoes = ctk.CTkFrame(self, fg_color="#2b2b2b")
         botoes.pack(anchor="e", padx=15, pady=10)
+
+        botoes.grid_columnconfigure(0, weight=1)
+        botoes.grid_columnconfigure(1, weight=1)
+        botoes.grid_columnconfigure(2, weight=1)
+
         
         linha = tk.Canvas(
             self,
@@ -92,17 +103,25 @@ class CardRotina(ctk.CTkFrame):
             bd=0
         )
 
-        linha.create_line(
-            0, 1, 1000, 1,
-            fill="#555555",
-            dash=(6, 4)
-        )
-
         linha.pack(
             fill="x",
             padx=15,
             pady=(10, 0)
         )
+
+        def desenhar(event):
+            linha.delete("all")
+            linha.create_line(
+                0,
+                1,
+                event.width,
+                1,
+                fill="#555555",
+                dash=(6, 4)
+            )
+
+        linha.bind("<Configure>", desenhar)
+
 
         ctk.CTkButton(
             botoes, 
@@ -169,6 +188,7 @@ class CardRotinaInativa(ctk.CTkFrame):
 
         quantidade = resultado["monitoramentos"]
         arquivos = resultado["arquivos"]
+        periodicidade = resultado["periodicidade"]
 
         if arquivos:
             arquivo = arquivos[0]
@@ -185,7 +205,8 @@ class CardRotinaInativa(ctk.CTkFrame):
         titulo = ctk.CTkLabel(
             self,
             text=self.nome,
-            font=("Arial", 18, "bold")
+            font=FONTE_SUBTITULO,
+            text_color="#C05C5C"
         )
 
         titulo.pack(anchor="w", padx=15, pady=(10, 5))
@@ -193,19 +214,44 @@ class CardRotinaInativa(ctk.CTkFrame):
         info = ctk.CTkLabel(
             self,
             text=f"""
-Status: {status}
-
 Monitoramentos: {quantidade}
-
-Arquivo: {nome_arquivo}
-Última modificação: {data_modificacao}
-"""
+Periodicidade: {periodicidade}
+""",
+        font=FONTE_NORMAL_BOLD,
+        justify="left"
         )
 
         info.pack(anchor="w", padx=15)
 
         botoes = ctk.CTkFrame(self, fg_color="#2b2b2b")
-        botoes.pack(anchor="e", padx=15, pady=10)
+        botoes.pack(padx=15, pady=10)
+
+        linha = tk.Canvas(
+            self,
+            height=2,
+            bg="#2b2b2b",
+            highlightthickness=0,
+            bd=0
+        )
+
+        linha.pack(
+            fill="x",
+            padx=15,
+            pady=(10, 0)
+        )
+
+        def desenhar(event):
+            linha.delete("all")
+            linha.create_line(
+                0,
+                1,
+                event.width,
+                1,
+                fill="#555555",
+                dash=(6, 4)
+            )
+
+        linha.bind("<Configure>", desenhar)
 
         ctk.CTkButton(
             botoes,
@@ -308,7 +354,7 @@ class JanelaConfirmacao(ctk.CTkToplevel):
         self.callback_confirmar = callback_confirmar
 
         self.title(titulo)
-        self.geometry("420x180")
+        self.geometry("420x200")
         self.resizable(False, False)
 
         self.transient(parent)
@@ -329,6 +375,7 @@ class JanelaConfirmacao(ctk.CTkToplevel):
         ctk.CTkLabel(
             self,
             text=mensagem,
+            font=FONTE_PEQUENA_BOLD,
             justify="center",
             wraplength=350
         ).grid(
@@ -351,6 +398,7 @@ class JanelaConfirmacao(ctk.CTkToplevel):
         ctk.CTkButton(
             frame_botoes,
             text="Cancelar",
+            font=FONTE_PEQUENA_BOLD,
             width=100,
             command=self.destroy
         ).pack(
@@ -361,6 +409,7 @@ class JanelaConfirmacao(ctk.CTkToplevel):
         ctk.CTkButton(
             frame_botoes,
             text=texto_confirmar,
+            font=FONTE_PEQUENA_BOLD,
             width=100,
             fg_color=cor_confirmar,
             hover_color=hover_confirmar,

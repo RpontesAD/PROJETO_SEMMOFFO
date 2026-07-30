@@ -226,7 +226,7 @@ class TelaCadastro(ctk.CTkFrame):
 
         ctk.CTkButton(
             frame_botoes,
-            text="← Voltar",
+            text="←",
             text_color=TX_AZUL,
             font=FONTE_NORMAL_BOLD,
             command=self.voltar
