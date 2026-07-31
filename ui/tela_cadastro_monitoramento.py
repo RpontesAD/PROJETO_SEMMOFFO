@@ -165,11 +165,14 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
 
         # ---------- Rodapé ----------
 
-        rodape = ctk.CTkFrame(self)
+        rodape = ctk.CTkFrame(self, fg_color="#333333")
         rodape.pack(fill="x", padx=15, pady=(0, 15))
+        
+        botoes = ctk.CTkFrame(rodape, fg_color="#333333")
+        botoes.pack(pady=10)
 
         ctk.CTkButton(
-            rodape,
+            botoes,
             text="Cancelar",
             font=FONTE_NORMAL_BOLD,
             fg_color=VERMELHO, 
@@ -179,14 +182,14 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
         ).pack(side="left", padx=10)
 
         ctk.CTkButton(
-            rodape,
+            botoes,
             text="Salvar",
             font=FONTE_NORMAL_BOLD,
             fg_color=VERDE,
             hover_color=VERDE_HOVER,
             text_color=TX_VERDE,
             command=self.salvar
-        ).pack(side="right", padx=10)
+        ).pack(side="left", padx=10)
         
     def alterar_tipo(self, valor):
 

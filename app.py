@@ -24,7 +24,7 @@ class App(ctk.CTk):
         self.notificacoes = []
         
         self.title("SEMMOFFO - Monitor de Rotinas")
-        self.geometry("950x850")
+        self.geometry("1000x850")
 
         self.container = ctk.CTkFrame(self)
         self.container.pack(

@@ -223,7 +223,7 @@ class TelaDetalhes(ctk.CTkFrame):
         ctk.CTkLabel(
             card,
             text=monitoramento["nome"],
-            font=FONTE_NORMAL_BOLD
+            font=FONTE_SUBTITULO
         ).pack(anchor="w", padx=15, pady=(10, 0))
 
         # Nome do arquivo
@@ -292,8 +292,18 @@ class TelaDetalhes(ctk.CTkFrame):
             command=lambda: self.editar_monitoramento(monitoramento)
         ).pack(
             side="left",
-            padx=(0, 5)
+            padx=10
         )
+        
+        ctk.CTkButton(
+            botoes,
+            text="Mostrar na pasta",
+            text_color=TX_CINZA,
+            fg_color=CINZA,
+            hover_color=CINZA_HOVER,
+            font=FONTE_PEQUENA_BOLD,
+            command=lambda: self.mostrar_na_pasta(monitoramento)
+        ).pack(side="left", padx=10)
 
         ctk.CTkButton(
             botoes,
@@ -304,7 +314,7 @@ class TelaDetalhes(ctk.CTkFrame):
             font=FONTE_PEQUENA_BOLD,
             width=80,
             command=lambda: self.excluir_monitoramento(monitoramento)
-        ).pack(side="left")
+        ).pack(side="left", padx=10)
         
         # Linha
         linha = tk.Canvas(
@@ -335,6 +345,26 @@ class TelaDetalhes(ctk.CTkFrame):
             id_rotina=self.id_rotina,
             id_monitoramento=monitoramento["id"]
         )
+        
+    def mostrar_na_pasta(self, monitoramento):
+
+        caminho = monitoramento["caminho"]
+
+        if not caminho:
+            self.app.notificar(
+                "Nenhum caminho foi encontrado.",
+                "erro"
+            )
+            return
+
+        if not os.path.exists(caminho):
+            self.app.notificar(
+                "Arquivo não encontrado.",
+                "erro"
+            )
+            return
+
+        subprocess.run(["explorer", "/select,", caminho])
 
     def excluir_monitoramento(self, monitoramento):
 
