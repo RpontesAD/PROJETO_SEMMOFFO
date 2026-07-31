@@ -553,7 +553,7 @@ class TelaCadastro(ctk.CTkFrame):
 
             atualizar_rotina(
                 self.id_rotina,
-                nome,
+                nome.upper(),
                 executavel,
                 periodo.upper(),
                 hora,
