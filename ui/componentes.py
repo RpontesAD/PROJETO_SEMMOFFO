@@ -131,7 +131,7 @@ class CardRotina(ctk.CTkFrame):
             fg_color=VERDE,      # Verde
             hover_color=VERDE_HOVER,   # Verde mais escuro
             command=self.ver_detalhes
-            ).pack(side="left", padx=5)
+        ).pack(side="left", padx=5)
         
         ctk.CTkButton(
             botoes,
@@ -149,7 +149,7 @@ class CardRotina(ctk.CTkFrame):
             fg_color=VERMELHO,
             hover_color=VERMELHO_HOVER,
             command=self.inativar
-            ).pack(side="left", padx=5)
+        ).pack(side="left", padx=5)
     
     def inativar(self):
         

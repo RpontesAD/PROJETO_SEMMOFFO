@@ -2,6 +2,7 @@ import customtkinter as ctk
 from database import buscar_rotina, listar_monitoramentos, excluir_monitoramento
 from ui.estilos import *
 from ui.componentes import JanelaConfirmacao
+import tkinter as tk
 from monitor import verificar_rotina
 import subprocess
 import threading
@@ -239,7 +240,7 @@ class TelaDetalhes(ctk.CTkFrame):
             cor = COR_ATUALIZADO
             texto = "● Atualizado"
         else:
-            cor = COR_ATUALIZADO
+            cor = COR_ATRASADO
             texto = "● Atrasado"
 
         ctk.CTkLabel(
@@ -269,10 +270,11 @@ class TelaDetalhes(ctk.CTkFrame):
             text=monitoramento["caminho"],
             font=FONTE_PEQUENA
         ).pack(anchor="w", padx=15, pady=(0, 10))
+        
 
         botoes = ctk.CTkFrame(
             card,
-            fg_color="transparent"
+            fg_color="#2b2b2b"
         )
 
         botoes.pack(
@@ -303,6 +305,28 @@ class TelaDetalhes(ctk.CTkFrame):
             width=80,
             command=lambda: self.excluir_monitoramento(monitoramento)
         ).pack(side="left")
+        
+        # Linha
+        linha = tk.Canvas(
+            card,
+            height=2,
+            bg="#2b2b2b",
+            highlightthickness=0,
+            bd=0
+        )
+
+        linha.pack(fill="x", padx=15, pady=(10, 10))
+
+        def desenhar(event):
+            linha.delete("all")
+            linha.create_line(
+                0, 1,
+                event.width, 1,
+                fill="#555555",
+                dash=(6, 4)
+            )
+
+        linha.bind("<Configure>", desenhar)
         
     def editar_monitoramento(self, monitoramento):
 
