@@ -41,8 +41,9 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
             text="←",
             font=FONTE_PEQUENA_BOLD,
             text_color=TX_AZUL,
+            width=50,
             command=self.voltar
-        ).pack(side="left")
+        ).pack(side="left", padx=15, pady=15)
 
         titulo = (
             "EDITAR MONITORAMENTO"
@@ -55,7 +56,7 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
             topo,
             text=titulo,
             font=FONTE_TITULO
-        ).pack(side="left", padx=15, pady=10)
+        ).pack(side="left", pady=10)
 
         # ---------- Formulário ----------
 

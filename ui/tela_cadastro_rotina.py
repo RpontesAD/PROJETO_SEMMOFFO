@@ -65,7 +65,7 @@ class TelaCadastro(ctk.CTkFrame):
             conteudo, text="Nome da rotina", font=FONTE_NORMAL_BOLD
         ).grid(row=0, column=0, columnspan=2, sticky="w", padx=30, pady=(20, 10))
 
-        self.nome_entry = ctk.CTkEntry(conteudo, height=self.ALTURA_CAMPO)
+        self.nome_entry = ctk.CTkEntry(conteudo, height=self.ALTURA_CAMPO, font=FONTE_NORMAL)
         self.nome_entry.grid(
             row=1, column=0, columnspan=2, sticky="ew", padx=30, pady=PAD_CAMPO
         )
@@ -82,6 +82,7 @@ class TelaCadastro(ctk.CTkFrame):
         self.periodicidade_combo = ctk.CTkComboBox(
             conteudo,
             height=self.ALTURA_CAMPO,
+            font=FONTE_NORMAL,
             values=["Diario", "Semanal", "Mensal"],
             command=self.alterar_periodo
         )
@@ -93,6 +94,7 @@ class TelaCadastro(ctk.CTkFrame):
             conteudo,
             height=self.ALTURA_CAMPO,
             placeholder_text="08:00",
+            font=FONTE_NORMAL,
             placeholder_text_color=PLACEHOLDER
         )
         self.hora_entry.grid(
@@ -110,7 +112,7 @@ class TelaCadastro(ctk.CTkFrame):
         )
         frame_executavel.grid_columnconfigure(0, weight=1)
 
-        self.executavel_entry = ctk.CTkEntry(frame_executavel, height=self.ALTURA_CAMPO)
+        self.executavel_entry = ctk.CTkEntry(frame_executavel, height=self.ALTURA_CAMPO, font=FONTE_NORMAL)
         self.executavel_entry.grid(row=0, column=0, sticky="ew", padx=(30, 0))
 
         ctk.CTkButton(
@@ -141,7 +143,6 @@ class TelaCadastro(ctk.CTkFrame):
             text="←",
             text_color=TX_AZUL,
             font=FONTE_NORMAL_BOLD,
-            width=40,
             command=self.voltar
         ).grid(row=0, column=0, padx=10)
 
@@ -168,6 +169,7 @@ class TelaCadastro(ctk.CTkFrame):
         self.dia_semana_combo = ctk.CTkComboBox(
             self.frame_condicional,
             height=self.ALTURA_CAMPO,
+            font=FONTE_NORMAL,
             values=["Segunda", "Terça", "Quarta", "Quinta",
                     "Sexta", "Sábado", "Domingo"]
         )
@@ -180,6 +182,7 @@ class TelaCadastro(ctk.CTkFrame):
         self.regra_combo = ctk.CTkComboBox(
             self.frame_condicional,
             height=self.ALTURA_CAMPO,
+            font=FONTE_NORMAL,
             values=["Primeiro dia útil", "Último dia útil", "Dia específico"],
             command=self.alterar_regra
         )
@@ -193,6 +196,7 @@ class TelaCadastro(ctk.CTkFrame):
             self.frame_condicional,
             height=self.ALTURA_CAMPO,
             placeholder_text="Ex: 25",
+            font=FONTE_NORMAL,
             placeholder_text_color=PLACEHOLDER
         )
         self.dia_mes_entry.grid(row=5, column=0, sticky="ew", padx=30, pady=PAD_CAMPO)
