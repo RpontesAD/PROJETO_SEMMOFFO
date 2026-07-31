@@ -35,9 +35,10 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
         topo = ctk.CTkFrame(self)
         topo.pack(fill="x", padx=15, pady=15)
 
+        #Botão voltar
         ctk.CTkButton(
             topo,
-            text="← Voltar",
+            text="←",
             font=FONTE_PEQUENA_BOLD,
             text_color=TX_AZUL,
             command=self.voltar
@@ -54,7 +55,7 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
             topo,
             text=titulo,
             font=FONTE_TITULO
-        ).pack(side="left", padx=15)
+        ).pack(side="left", padx=15, pady=10)
 
         # ---------- Formulário ----------
 
