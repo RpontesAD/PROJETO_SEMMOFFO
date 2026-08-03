@@ -19,8 +19,14 @@ class CardRotina(ctk.CTkFrame):
         periodicidade = resultado["periodicidade"]
         hora = resultado["hora"]
         prazo = resultado["prazo"]
+        proximo_prazo = resultado["proximo_prazo"]
         quantidade = resultado["monitoramentos"]
         arquivos = resultado["arquivos"]
+        
+        if proximo_prazo:
+            proximo_prazo = proximo_prazo.strftime("%d/%m/%Y às %H:%M")
+        else:
+            proximo_prazo = "-"
         
         if arquivos:
             arquivo = arquivos[0]
@@ -49,7 +55,7 @@ class CardRotina(ctk.CTkFrame):
         CORES_STATUS = {
             "Atualizado": COR_ATUALIZADO,
             "Atrasado": COR_ATRASADO,
-            "Sem monitoramentos": "#F59E0B"
+            "Sem monitoramentos": "white"
         }  # Verde
 
         cor_status = COR_ATUALIZADO
@@ -58,6 +64,13 @@ class CardRotina(ctk.CTkFrame):
             if texto in status:
                 cor_status = cor
                 break
+            
+        if texto == "Atualizado":
+            FUNDO = COR_ATUALIZADO_FUNDO
+        elif texto == "Atrasado":
+            FUNDO = COR_ATRASADO_FUNDO
+        else:
+            FUNDO = "#4d4d4d"
             
         linha_status = ctk.CTkFrame(info, fg_color="transparent")
         linha_status.pack(anchor="w")
@@ -72,6 +85,8 @@ class CardRotina(ctk.CTkFrame):
             linha_status,
             text=status,
             text_color=cor_status,
+            fg_color=FUNDO,
+            corner_radius=20,
             font=FONTE_NORMAL_BOLD
         ).pack(side="left")    
         
@@ -84,6 +99,12 @@ class CardRotina(ctk.CTkFrame):
         ctk.CTkLabel(
             info,
             text=f"Periodicidade: {periodicidade}",
+            font=FONTE_NORMAL_BOLD
+        ).pack(anchor="w")
+        
+        ctk.CTkLabel(
+            info,
+            text=f"Próxima atualização: {proximo_prazo}",
             font=FONTE_NORMAL_BOLD
         ).pack(anchor="w")
 
@@ -116,8 +137,8 @@ class CardRotina(ctk.CTkFrame):
                 1,
                 event.width,
                 1,
-                fill="#555555",
-                dash=(6, 4)
+                fill="#424242",
+                # dash=(6, 4)
             )
 
         linha.bind("<Configure>", desenhar)
@@ -247,8 +268,8 @@ Periodicidade: {periodicidade}
                 1,
                 event.width,
                 1,
-                fill="#555555",
-                dash=(6, 4)
+                fill="#424242",
+                # dash=(6, 4)
             )
 
         linha.bind("<Configure>", desenhar)

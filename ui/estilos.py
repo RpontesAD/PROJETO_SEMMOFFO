@@ -7,6 +7,7 @@ FONTE_NORMAL = ("Roboto", 14)
 FONTE_NORMAL_BOLD = ("Roboto", 14, "bold")
 FONTE_PEQUENA = ("Roboto", 12)
 FONTE_PEQUENA_BOLD = ("Roboto", 12, "bold")
+FONTE_PEQUENA_SUBLINHADA = ("Arial", 14, "bold underline")
 
 # Cores botões
 
@@ -41,4 +42,6 @@ TX_HOVER = "#FFFFFF"
 # tags atualização
 
 COR_ATUALIZADO = "#22C55E"
-COR_ATRASADO = "#D32F2F"
+COR_ATUALIZADO_FUNDO = "#0e4f26"
+COR_ATRASADO = "#fc0d0d"
+COR_ATRASADO_FUNDO ="#6a1818"

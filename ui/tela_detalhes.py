@@ -225,29 +225,71 @@ class TelaDetalhes(ctk.CTkFrame):
             text=monitoramento["nome"],
             font=FONTE_SUBTITULO
         ).pack(anchor="w", padx=15, pady=(10, 0))
-
-        # Nome do arquivo
+        
+        tipo = str(monitoramento["tipo"])
+        
+        if tipo == "ULTIMO_ARQUIVO":
+            tipo = "Ultimo arquivo da pasta"
+        else: 
+            tipo = "Arquivo alvo"
+        
         ctk.CTkLabel(
             card,
-            text=monitoramento["arquivo"],
-            font=FONTE_NORMAL
+            text=f"Monitorando por: {tipo}",
+            font=FONTE_PEQUENA,
         ).pack(anchor="w", padx=15)
+        
+        fonte_sublinhada = ctk.CTkFont(
+            family="Roboto",
+            size=14,
+            weight="bold",
+            underline=True
+        )
+
+        # Nome do arquivo
+        status = monitoramento["status"]
+
+        if status == "Atualizado":
+            cor = "#2580e8"
+            fonte = fonte_sublinhada
+        else:
+            cor = "#7A7A7A"      # cinza
+            fonte = FONTE_NORMAL_BOLD
+
+        label_arquivo = ctk.CTkLabel(
+            card,
+            text=monitoramento["arquivo"],
+            text_color=cor,
+            font=fonte,
+            cursor="hand2"
+        )
+
+        label_arquivo.pack(anchor="w", padx=15)
+
+        label_arquivo.bind(
+            "<Button-1>",
+            lambda e: self.clicar_no_arquivo(monitoramento)
+        )
 
         # Status
         status = monitoramento["status"]
 
         if status == "Atualizado":
             cor = COR_ATUALIZADO
+            fundo = COR_ATUALIZADO_FUNDO
             texto = "● Atualizado"
         else:
             cor = COR_ATRASADO
+            fundo = COR_ATRASADO_FUNDO
             texto = "● Atrasado"
 
         ctk.CTkLabel(
             card,
             text=texto,
             text_color=cor,
-            font=FONTE_NORMAL_BOLD
+            fg_color=fundo,
+            font=FONTE_NORMAL_BOLD,
+            corner_radius=20
         ).pack(
             anchor="w",
             padx=15,
@@ -268,7 +310,7 @@ class TelaDetalhes(ctk.CTkFrame):
         ctk.CTkLabel(
             card,
             text=monitoramento["caminho"],
-            font=FONTE_PEQUENA
+            font=FONTE_PEQUENA,
         ).pack(anchor="w", padx=15, pady=(0, 10))
         
 
@@ -332,8 +374,8 @@ class TelaDetalhes(ctk.CTkFrame):
             linha.create_line(
                 0, 1,
                 event.width, 1,
-                fill="#555555",
-                dash=(6, 4)
+                fill="#424242",
+                # dash=(6, 4)
             )
 
         linha.bind("<Configure>", desenhar)
@@ -365,6 +407,37 @@ class TelaDetalhes(ctk.CTkFrame):
             return
 
         subprocess.run(["explorer", "/select,", caminho])
+        
+    def clicar_no_arquivo(self, monitoramento):
+
+        if monitoramento["status"] == "Atrasado":
+            self.app.notificar(
+                "O arquivo não pode ser aberto porque a rotina está atrasada.",
+                "aviso",
+                bg_color="#2b2b2b"
+                
+            )
+            return
+
+        caminho = monitoramento["caminho"]
+
+        if not caminho:
+            self.app.notificar(
+                "Nenhum caminho foi encontrado.",
+                "erro",
+                bg_color="#2b2b2b"
+            )
+            return
+
+        if not os.path.exists(caminho):
+            self.app.notificar(
+                "Arquivo não encontrado.",
+                "erro",
+                bg_color="#2b2b2b"
+            )
+            return
+
+        os.startfile(caminho)
 
     def excluir_monitoramento(self, monitoramento):
 

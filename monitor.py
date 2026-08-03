@@ -190,6 +190,117 @@ def calcular_ultimo_prazo(periodo, hora, regra_dia=None, dia_semana=None, dia_me
 
 
         return prazo
+    
+def calcular_proximo_prazo(periodo, hora, regra_dia=None, dia_semana=None, dia_mes=None):
+
+    agora = datetime.now()
+
+    hora_obj = datetime.strptime(hora, "%H:%M").time()
+
+    if periodo == "DIARIO":
+
+        prazo = datetime.combine(
+            agora.date(),
+            hora_obj
+        )
+
+        if agora >= prazo:
+            prazo += timedelta(days=1)
+
+        return prazo
+
+
+    elif periodo == "SEMANAL":
+
+        if dia_semana is None:
+            return None
+
+        dia_semana = int(dia_semana)
+
+        dias_ate = (dia_semana - agora.weekday()) % 7
+
+        prazo = agora + timedelta(days=dias_ate)
+
+        prazo = datetime.combine(
+            prazo.date(),
+            hora_obj
+        )
+
+        if agora >= prazo:
+            prazo += timedelta(days=7)
+
+        return prazo
+
+
+    elif periodo == "MENSAL":
+
+        if regra_dia == "PRIMEIRO_DIA_UTIL":
+
+            prazo_data = primeiro_dia_util(
+                agora.year,
+                agora.month
+            )
+
+        elif regra_dia == "ULTIMO_DIA_UTIL":
+
+            prazo_data = ultimo_dia_util(
+                agora.year,
+                agora.month
+            )
+
+        else:
+
+            if not dia_mes:
+                return None
+
+            prazo_data = datetime(
+                agora.year,
+                agora.month,
+                int(dia_mes)
+            )
+
+        prazo = datetime.combine(
+            prazo_data.date(),
+            hora_obj
+        )
+
+        if agora >= prazo:
+
+            if agora.month == 12:
+                ano = agora.year + 1
+                mes = 1
+            else:
+                ano = agora.year
+                mes = agora.month + 1
+
+            if regra_dia == "PRIMEIRO_DIA_UTIL":
+
+                prazo_data = primeiro_dia_util(
+                    ano,
+                    mes
+                )
+
+            elif regra_dia == "ULTIMO_DIA_UTIL":
+
+                prazo_data = ultimo_dia_util(
+                    ano,
+                    mes
+                )
+
+            else:
+
+                prazo_data = datetime(
+                    ano,
+                    mes,
+                    int(dia_mes)
+                )
+
+            prazo = datetime.combine(
+                prazo_data.date(),
+                hora_obj
+            )
+
+        return prazo
 
 def verificar_arquivo(caminho):
     
@@ -245,6 +356,14 @@ def verificar_rotina(id_rotina):
         dia_semana,
         dia_mes
     )
+    
+    proximo_prazo = calcular_proximo_prazo(
+        periodo,
+        hora,
+        regra_dia,
+        dia_semana,
+        dia_mes
+    )
 
 
     monitoramentos = listar_monitoramentos(
@@ -259,6 +378,7 @@ def verificar_rotina(id_rotina):
         "periodicidade": periodo,
         "hora": hora,
         "prazo": prazo,
+        "proximo_prazo": proximo_prazo,
         "monitoramentos": len(monitoramentos),
         "arquivos": []
     }
