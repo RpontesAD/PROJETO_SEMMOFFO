@@ -176,7 +176,7 @@ class TelaCadastro(ctk.CTkFrame):
         self.dia_semana_combo.grid(row=1, column=0, sticky="ew", padx=30, pady=PAD_CAMPO)
 
         ctk.CTkLabel(
-            self.frame_condicional, text="Regra mensal", font=FONTE_NORMAL_BOLD
+            self.frame_condicional, text="Regra para atualização mensal", font=FONTE_NORMAL_BOLD
         ).grid(row=2, column=0, sticky="w", padx=30, pady=PAD_LABEL)
 
         self.regra_combo = ctk.CTkComboBox(
@@ -189,15 +189,13 @@ class TelaCadastro(ctk.CTkFrame):
         self.regra_combo.grid(row=3, column=0, sticky="ew", padx=30, pady=PAD_CAMPO)
 
         ctk.CTkLabel(
-            self.frame_condicional, text="Dia do mês", font=FONTE_NORMAL_BOLD
+            self.frame_condicional, text="Dia do mês (exemplo: 25)", font=FONTE_NORMAL_BOLD
         ).grid(row=4, column=0, sticky="w", padx=30, pady=PAD_LABEL)
 
         self.dia_mes_entry = ctk.CTkEntry(
             self.frame_condicional,
             height=self.ALTURA_CAMPO,
-            placeholder_text="Ex: 25",
             font=FONTE_NORMAL,
-            placeholder_text_color=PLACEHOLDER
         )
         self.dia_mes_entry.grid(row=5, column=0, sticky="ew", padx=30, pady=PAD_CAMPO)
 
@@ -214,6 +212,9 @@ class TelaCadastro(ctk.CTkFrame):
     def alterar_periodo(self, periodo):
         self.bloquear_campo(self.dia_semana_combo)
         self.bloquear_campo(self.regra_combo)
+
+        self.regra_combo.set("Primeiro dia útil")
+        self.dia_mes_entry.delete(0, "end")
         self.bloquear_campo(self.dia_mes_entry)
 
         if periodo == "Semanal":
@@ -224,6 +225,7 @@ class TelaCadastro(ctk.CTkFrame):
             self.alterar_regra(self.regra_combo.get())
 
     def alterar_regra(self, regra):
+        self.dia_mes_entry.delete(0, "end")
         self.bloquear_campo(self.dia_mes_entry)
 
         if regra == "Dia específico":
