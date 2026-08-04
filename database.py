@@ -139,6 +139,22 @@ def listar_rotinas_inativas():
 
     return [dict(rotina) for rotina in rotinas]
 
+def contar_rotinas_inativas():
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM rotinas
+        WHERE ativo = 0
+    """)
+
+    total = cursor.fetchone()[0]
+
+    conn.close()
+
+    return total
+
 def restaurar_rotina(id_rotina):
 
     conexao = conectar()

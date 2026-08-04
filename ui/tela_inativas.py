@@ -84,23 +84,25 @@ class TelaInativas(ctk.CTkFrame):
 
         ctk.CTkLabel(
             janela,
-            text=f"Restaurar a rotina\n\n'{nome}'?",
+            text=f'Restaurar a rotina\n\n"{nome}"?',
             font=FONTE_SUBTITULO,
             justify="center"
         ).pack(pady=(20,10))
 
         ctk.CTkLabel(
             janela,
-            text="Ela voltará para a lista de rotinas ativas."
+            text="Ela voltará para a lista de rotinas ativas.",
+            font=FONTE_PEQUENA_BOLD
         ).pack()
 
         botoes = ctk.CTkFrame(janela, fg_color="#242424")
-        botoes.pack(pady=20)
+        botoes.pack(pady=16)
 
         ctk.CTkButton(
             botoes,
             text="Cancelar",
             font=FONTE_PEQUENA_BOLD,
+            width=100,
             command=janela.destroy
         ).pack(side="left", padx=8)
 
@@ -110,6 +112,7 @@ class TelaInativas(ctk.CTkFrame):
             font=FONTE_PEQUENA_BOLD,
             fg_color=VERDE,
             hover_color=VERDE_HOVER,
+            width=100,
             command=lambda: self.restaurar(id_rotina, janela)
         ).pack(side="left", padx=8)
         

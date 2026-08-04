@@ -227,7 +227,7 @@ class CardRotinaInativa(ctk.CTkFrame):
             self,
             text=self.nome,
             font=FONTE_SUBTITULO,
-            text_color="#C05C5C"
+            text_color="#757575"
         )
 
         titulo.pack(anchor="w", padx=15, pady=(10, 5))

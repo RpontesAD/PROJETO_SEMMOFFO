@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from database import listar_rotinas_ativas
+from database import listar_rotinas_ativas, contar_rotinas_inativas
 from database import inativar_rotina as db_inativar_rotina
 from ui.estilos import *
 from ui.componentes import JanelaConfirmacao
@@ -112,15 +112,18 @@ class TelaPrincipal(ctk.CTkFrame):
             padx=10
         )
         
-        ctk.CTkButton(  
+        self.botao_inativas = ctk.CTkButton(
             topo,
             text="Rotinas Inativas",
-            text_color= TX_CINZA,
-            font= FONTE_NORMAL_BOLD,
+            text_color=TX_CINZA,
+            font=FONTE_NORMAL_BOLD,
             fg_color=CINZA,
             hover_color=CINZA_HOVER,
             command=self.abrir_inativas
-        ).pack(side="right", padx=5)
+        )
+
+        self.botao_inativas.pack(side="right", padx=5)
+        self.atualizar_botao_inativas()
 
 
         self.lista_rotinas = ctk.CTkScrollableFrame(self)
@@ -160,3 +163,12 @@ class TelaPrincipal(ctk.CTkFrame):
         )
 
         self.carregar_rotinas()
+        self.atualizar_botao_inativas()
+        
+    def atualizar_botao_inativas(self):
+
+        total = contar_rotinas_inativas()
+
+        self.botao_inativas.configure(
+            text=f"Rotinas Inativas ({total})"
+        )
