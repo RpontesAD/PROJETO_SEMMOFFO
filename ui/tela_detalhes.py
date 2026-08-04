@@ -139,7 +139,7 @@ class TelaDetalhes(ctk.CTkFrame):
                 text=f"Executável: {nome}",
                 text_color=COR_ATUALIZADO,
                 font=FONTE_NORMAL_BOLD
-            ).pack(anchor="w", padx=15, pady=(5, 0))
+            ).pack(anchor="w", padx=15)
 
             ctk.CTkLabel(
                 info,
@@ -156,7 +156,7 @@ class TelaDetalhes(ctk.CTkFrame):
                 hover_color=CINZA_HOVER,
                 text_color=TX_CINZA,
                 command=self.mostrar_executavel_na_pasta
-            ).pack(anchor="e", padx=15, pady=10)
+            ).pack(anchor="e", padx=15, pady=(0, 15))
             
         else:
             ctk.CTkLabel(

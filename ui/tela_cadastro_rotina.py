@@ -121,9 +121,10 @@ class TelaCadastro(ctk.CTkFrame):
             font=FONTE_PEQUENA_BOLD,
             fg_color=CINZA,
             hover_color=CINZA_HOVER,
+            height=35,
             width=90,
             command=self.selecionar_executavel
-        ).grid(row=0, column=1, padx=30)
+        ).grid(row=0, column=1, padx=(15, 30))
 
         # --- Linha 6: área condicional (dia da semana / regra mensal) --
         self.frame_condicional = ctk.CTkFrame(conteudo, fg_color="transparent")
@@ -143,6 +144,7 @@ class TelaCadastro(ctk.CTkFrame):
             text="←",
             text_color=TX_AZUL,
             font=FONTE_NORMAL_BOLD,
+            height=30,
             command=self.voltar
         ).grid(row=0, column=0, padx=10)
 
@@ -153,6 +155,7 @@ class TelaCadastro(ctk.CTkFrame):
             hover_color=VERDE_HOVER,
             text_color=TX_VERDE,
             font=FONTE_NORMAL_BOLD,
+            height=30,
             command=self.salvar_rotina
         ).grid(row=0, column=1, padx=10)
 
