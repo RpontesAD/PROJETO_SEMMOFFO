@@ -7,6 +7,7 @@ FONTE_NORMAL = ("Roboto", 14)
 FONTE_NORMAL_BOLD = ("Roboto", 14, "bold")
 FONTE_PEQUENA = ("Roboto", 12)
 FONTE_PEQUENA_BOLD = ("Roboto", 12, "bold")
+FONTE_PEQUENININHA = ("Roboto", 10)
 FONTE_PEQUENA_SUBLINHADA = ("Arial", 14, "bold underline")
 
 # Cores botões

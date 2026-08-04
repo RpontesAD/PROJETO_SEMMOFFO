@@ -77,8 +77,10 @@ class TelaDetalhes(ctk.CTkFrame):
             6: "Domingo"
         }
 
+        # Informações frame
         info = ctk.CTkFrame(self)
         info.pack(fill="x", padx=15)
+        
 
         informacoes = []
 
@@ -116,18 +118,6 @@ class TelaDetalhes(ctk.CTkFrame):
                     f"Regra: Dia {self.rotina['dia_mes']} do mês"
                 )
 
-        if self.rotina["executavel"]:
-
-            informacoes.append(
-                f"Executável: {self.rotina['executavel']}"
-            )
-
-        else:
-
-            informacoes.append(
-                "Executável: Manual"
-            )
-
         ctk.CTkLabel(
             info,
             text="\n".join(informacoes),
@@ -139,6 +129,49 @@ class TelaDetalhes(ctk.CTkFrame):
             padx=15,
             pady=15
         )
+        
+        if self.rotina["executavel"]:
+
+            nome = os.path.basename(self.rotina["executavel"])
+
+            ctk.CTkLabel(
+                info,
+                text=f"Executável: {nome}",
+                text_color=COR_ATUALIZADO,
+                font=FONTE_NORMAL_BOLD
+            ).pack(anchor="w", padx=15, pady=(5, 0))
+
+            ctk.CTkLabel(
+                info,
+                text=self.rotina["executavel"],
+                text_color="#a1a1a1",
+                font=FONTE_PEQUENININHA
+            ).pack(anchor="w", padx=15)
+
+            ctk.CTkButton(
+                info,
+                text="Mostrar na pasta",
+                font=FONTE_PEQUENA_BOLD,
+                fg_color=CINZA,
+                hover_color=CINZA_HOVER,
+                text_color=TX_CINZA,
+                command=self.mostrar_executavel_na_pasta
+            ).pack(anchor="e", padx=15, pady=10)
+            
+        else:
+            ctk.CTkLabel(
+                info,
+                text="Esta rotina é manual",
+                text_color="#a1a1a1",
+                font=FONTE_NORMAL_BOLD
+            ).pack(anchor="w", padx=15)
+
+            ctk.CTkLabel(
+                info,
+                text="Nenhum executável foi associado...",
+                text_color="#808080",
+                font=FONTE_PEQUENA
+            ).pack(anchor="w", padx=15, pady=(0, 15))
 
         # ---------- Lista de monitoramentos ----------
 
@@ -161,7 +194,7 @@ class TelaDetalhes(ctk.CTkFrame):
 
         ctk.CTkButton(
             rodape,
-            text="Atualizar",
+            text="Executar Rotina",
             text_color=TX_VERDE,
             font=FONTE_NORMAL_BOLD,
             fg_color=VERDE,   
@@ -206,6 +239,7 @@ class TelaDetalhes(ctk.CTkFrame):
         for monitoramento in monitoramentos:
             self.criar_card_monitoramento(monitoramento)
             
+    # Card monitoramento e todos os elementos que o compõe
     def criar_card_monitoramento(self, monitoramento):
 
         card = ctk.CTkFrame(
@@ -310,7 +344,8 @@ class TelaDetalhes(ctk.CTkFrame):
         ctk.CTkLabel(
             card,
             text=monitoramento["caminho"],
-            font=FONTE_PEQUENA,
+            text_color="#a1a1a1",
+            font=FONTE_PEQUENININHA,
         ).pack(anchor="w", padx=15, pady=(0, 10))
         
 
@@ -402,6 +437,26 @@ class TelaDetalhes(ctk.CTkFrame):
         if not os.path.exists(caminho):
             self.app.notificar(
                 "Arquivo não encontrado.",
+                "erro"
+            )
+            return
+
+        subprocess.run(["explorer", "/select,", caminho])
+        
+    def mostrar_executavel_na_pasta(self):
+
+        caminho = self.rotina["executavel"]
+
+        if not caminho:
+            self.app.notificar(
+                "Nenhum executável foi cadastrado.",
+                "erro"
+            )
+            return
+
+        if not os.path.exists(caminho):
+            self.app.notificar(
+                "Executável não encontrado.",
                 "erro"
             )
             return
