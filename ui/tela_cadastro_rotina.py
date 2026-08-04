@@ -385,7 +385,10 @@ class TelaCadastro(ctk.CTkFrame):
         if rotina["executavel"]:
             self.executavel_entry.insert(0, rotina["executavel"])
 
-        self.periodicidade_combo.set(rotina["periodo"].capitalize())
+        periodo = rotina["periodo"].capitalize()
+
+        self.periodicidade_combo.set(periodo)
+        self.alterar_periodo(periodo)
         self.hora_entry.insert(0, rotina["hora"])
 
         if rotina["dia_semana"] is not None:
@@ -394,3 +397,15 @@ class TelaCadastro(ctk.CTkFrame):
                 4: "Sexta", 5: "Sábado", 6: "Domingo"
             }
             self.dia_semana_combo.set(dias_semana[rotina["dia_semana"]])
+            
+        if rotina["regra_dia"] == "PRIMEIRO_DIA_UTIL":
+            self.regra_combo.set("Primeiro dia útil")
+
+        elif rotina["regra_dia"] == "ULTIMO_DIA_UTIL":
+            self.regra_combo.set("Último dia útil")
+
+        elif rotina["regra_dia"] == "DIA_ESPECIFICO":
+            self.regra_combo.set("Dia específico")
+            self.alterar_regra("Dia específico")
+
+            self.dia_mes_entry.insert(0, str(rotina["dia_mes"]))
