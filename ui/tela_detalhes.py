@@ -461,7 +461,9 @@ class TelaDetalhes(ctk.CTkFrame):
             )
             return
 
-        subprocess.run(["explorer", "/select,", caminho])
+        pasta = os.path.dirname(caminho)
+
+        os.startfile(pasta)
         
     def clicar_no_arquivo(self, monitoramento):
 
