@@ -6,8 +6,6 @@ from ui.tela_inativas import TelaInativas
 from ui.tela_detalhes import TelaDetalhes
 from ui.componentes import Notificacao
 
-
-
 class App(ctk.CTk):
 
     def __init__(self):
