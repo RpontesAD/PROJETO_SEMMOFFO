@@ -13,7 +13,7 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         
-        self.iconbitmap("assets/icons/semmoffo_oficial.ico")
+        self.iconbitmap("assets\semmoffo.ico")
         
         self.telas = {
             "principal": TelaPrincipal,
