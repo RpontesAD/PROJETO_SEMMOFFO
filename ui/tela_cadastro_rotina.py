@@ -62,10 +62,16 @@ class TelaCadastro(ctk.CTkFrame):
 
         # --- Linha 0: Nome (ocupa as duas colunas) --------------------
         ctk.CTkLabel(
-            conteudo, text="Nome da rotina", font=FONTE_NORMAL_BOLD
+            conteudo, text="Nome da rotina", font=FONTE_NORMAL_BOLD,
         ).grid(row=0, column=0, columnspan=2, sticky="w", padx=30, pady=(20, 10))
 
-        self.nome_entry = ctk.CTkEntry(conteudo, height=self.ALTURA_CAMPO, font=FONTE_NORMAL)
+        self.nome_entry = ctk.CTkEntry(
+            conteudo, 
+            height=self.ALTURA_CAMPO, 
+            font=FONTE_NORMAL, 
+            placeholder_text="Digite o nome da sua rotina",
+            placeholder_text_color=PLACEHOLDER
+        )
         self.nome_entry.grid(
             row=1, column=0, columnspan=2, sticky="ew", padx=30, pady=PAD_CAMPO
         )
@@ -93,7 +99,7 @@ class TelaCadastro(ctk.CTkFrame):
         self.hora_entry = ctk.CTkEntry(
             conteudo,
             height=self.ALTURA_CAMPO,
-            placeholder_text="08:00",
+            placeholder_text="Ex: 08:00",
             font=FONTE_NORMAL,
             placeholder_text_color=PLACEHOLDER
         )
@@ -112,7 +118,13 @@ class TelaCadastro(ctk.CTkFrame):
         )
         frame_executavel.grid_columnconfigure(0, weight=1)
 
-        self.executavel_entry = ctk.CTkEntry(frame_executavel, height=self.ALTURA_CAMPO, font=FONTE_NORMAL)
+        self.executavel_entry = ctk.CTkEntry(
+            frame_executavel, 
+            height=self.ALTURA_CAMPO, 
+            font=FONTE_NORMAL,
+            placeholder_text="Selecione o arquivo exe que executa a atualização",
+            placeholder_text_color=PLACEHOLDER
+        )
         self.executavel_entry.grid(row=0, column=0, sticky="ew", padx=(30, 0))
 
         ctk.CTkButton(

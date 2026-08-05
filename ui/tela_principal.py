@@ -24,6 +24,10 @@ class TelaPrincipal(ctk.CTkFrame):
 
         rotinas = listar_rotinas_ativas()
 
+        frame_diarias = self.criar_secao("DIÁRIAS")
+        frame_semanais = self.criar_secao("SEMANAIS")
+        frame_mensais = self.criar_secao("MENSAIS")
+
         if not rotinas:
         
             ctk.CTkLabel(
@@ -42,8 +46,17 @@ class TelaPrincipal(ctk.CTkFrame):
 
             resultado = verificar_rotina(rotina["id"])
 
+            if rotina["periodo"] == "DIARIO":
+                destino = frame_diarias
+
+            elif rotina["periodo"] == "SEMANAL":
+                destino = frame_semanais
+
+            else:
+                destino = frame_mensais
+
             card = CardRotina(
-                self.lista_rotinas,
+                destino,
                 resultado,
                 on_inativar=self.confirmar_inativacao,
                 on_editar=self.editar_rotina,
@@ -55,6 +68,15 @@ class TelaPrincipal(ctk.CTkFrame):
                 padx=10,
                 pady=10
             )
+
+        if frame_diarias.winfo_children():
+            frame_diarias.pack(fill="x", padx=10, pady=(0, 10))
+
+        if frame_semanais.winfo_children():
+            frame_semanais.pack(fill="x", padx=10, pady=(0, 10))
+
+        if frame_mensais.winfo_children():
+            frame_mensais.pack(fill="x", padx=10, pady=(0, 10))
 
 
     def abrir_cadastro(self):
@@ -172,3 +194,27 @@ class TelaPrincipal(ctk.CTkFrame):
         self.botao_inativas.configure(
             text=f"Rotinas Inativas ({total})"
         )
+
+    def criar_secao(self, titulo):
+
+        frame = ctk.CTkFrame(
+            self.lista_rotinas,
+            fg_color="transparent"
+        )
+
+        ctk.CTkLabel(
+            frame,
+            text=titulo,
+            text_color="#A3A3A3",
+            fg_color="#333333",
+            corner_radius=20,
+            height=40,
+            width=80,
+            font=FONTE_TITULO
+        ).pack(
+            anchor="w",
+            padx=5,
+            pady=(15, 5)
+        )
+
+        return frame

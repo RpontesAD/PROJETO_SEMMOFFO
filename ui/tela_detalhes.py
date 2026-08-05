@@ -42,7 +42,7 @@ class TelaDetalhes(ctk.CTkFrame):
 
         ctk.CTkLabel(
             topo,
-            text=self.rotina["nome"],
+            text=f'{self.rotina["nome"]} - DETALHES',
             font=FONTE_TITULO
         ).pack(side="left")
         
