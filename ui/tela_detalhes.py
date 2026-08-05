@@ -524,11 +524,13 @@ class TelaDetalhes(ctk.CTkFrame):
             self.after(
                 0,
                 lambda: self.app.notificar(
-                    "Nenhum executável foi cadastrado.",
-                    "erro",
+                    "Rotina manual! Nenhum .exe foi cadastrado.",
+                    "aviso",
                     bg_color="#2b2b2b"
                 )
             )
+            
+            self.after(0, self.carregar_monitoramentos)
             return
 
         if not os.path.exists(executavel):
