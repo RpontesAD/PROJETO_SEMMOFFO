@@ -262,18 +262,40 @@ class TelaCadastroMonitoramento(ctk.CTkFrame):
         self.alterar_tipo(
             monitoramento["tipo"]
         )
+        
+    def limpar_validacao(self):
+        self.entry_nome.configure(border_color="#565B5E")
+        self.entry_caminho.configure(border_color="#565B5E")
+        
+    def validar_campos(self):
+
+        self.limpar_validacao()
+
+        valido = True
+
+        if not self.entry_nome.get().strip():
+            self.entry_nome.configure(border_color="#DC2626")
+            valido = False
+
+        if not self.entry_caminho.get().strip():
+            self.entry_caminho.configure(border_color="#DC2626")
+            valido = False
+
+        return valido
                 
     def salvar(self):
+
+        if not self.validar_campos():
+            self.app.notificar(
+                "Preencha os campos obrigatórios.",
+                "erro",
+                bg_color="#333333"
+            )
+            return
 
         nome = self.entry_nome.get().strip()
         tipo = self.tipo.get()
         caminho = self.entry_caminho.get().strip()
-
-        if not nome:
-            return
-
-        if not caminho:
-            return
 
         if tipo == "ARQUIVO_ALVO":
 

@@ -342,6 +342,11 @@ class TelaCadastro(ctk.CTkFrame):
 
     def salvar_rotina(self):
         if not self.validar_campos():
+            self.app.notificar(
+                "Preencha os campos obrigatórios.",
+                "erro",
+                bg_color="#333333"
+            )
             return
 
         nome = self.nome_entry.get()

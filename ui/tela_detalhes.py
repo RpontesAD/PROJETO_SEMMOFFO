@@ -46,6 +46,7 @@ class TelaDetalhes(ctk.CTkFrame):
             font=FONTE_TITULO
         ).pack(side="left")
         
+        
         ctk.CTkButton(
             topo,
             text="+ Novo Monitoramento",
@@ -57,6 +58,17 @@ class TelaDetalhes(ctk.CTkFrame):
         ).pack(
             side="right",
             padx=15
+        )
+        
+        ctk.CTkButton(
+            topo,
+            text="⟳ Refresh",
+            width=40,
+            font=FONTE_NORMAL_BOLD,
+            command=lambda: self.after(0, self.carregar_monitoramentos)
+        ).pack(
+            side="right",
+            padx=(0, 10)
         )
 
         # ---------- Informações ----------
@@ -192,15 +204,24 @@ class TelaDetalhes(ctk.CTkFrame):
         rodape = ctk.CTkFrame(self, fg_color="#333333")
         rodape.pack(fill="x", padx=15, pady=(0, 15))
 
-        ctk.CTkButton(
+        self.btn_executar = ctk.CTkButton(
             rodape,
             text="Executar Rotina",
             text_color=TX_VERDE,
             font=FONTE_NORMAL_BOLD,
-            fg_color=VERDE,   
+            fg_color=VERDE,
             hover_color=VERDE_HOVER,
             command=self.executar_rotina
-        ).pack(side="bottom", padx=5)
+        )
+
+        self.btn_executar.pack(side="bottom", padx=5)
+        
+        if not self.rotina["executavel"]:
+            self.btn_executar.configure(
+                fg_color="#4A4A4A",
+                hover_color="#4A4A4A",
+                text_color="#9A9A9A"
+            )
 
 
     def voltar(self):
@@ -529,8 +550,6 @@ class TelaDetalhes(ctk.CTkFrame):
                     bg_color="#2b2b2b"
                 )
             )
-            
-            self.after(0, self.carregar_monitoramentos)
             return
 
         if not os.path.exists(executavel):
@@ -547,26 +566,45 @@ class TelaDetalhes(ctk.CTkFrame):
         try:
             subprocess.run(executavel, shell=True)
 
-            self.after(
-                0,
-                lambda: self.app.notificar(
-                    "Rotina executada com sucesso.",
-                    "sucesso",
-                    bg_color="#2b2b2b"
-                )
+            # Atualiza o status da rotina
+            resultado = verificar_rotina(self.id_rotina)
+
+            monitoramentos = resultado["arquivos"]
+
+            todos_atualizados = (
+                monitoramentos and
+                all(m["status"] == "Atualizado" for m in monitoramentos)
             )
+
+            if todos_atualizados:
+                self.after(
+                    0,
+                    lambda: self.app.notificar(
+                        "Rotina executada com sucesso.",
+                        "sucesso",
+                        bg_color="#2b2b2b"
+                    )
+                )
+            else:
+                self.after(
+                    0,
+                    lambda: self.app.notificar(
+                        "A rotina foi executada, mas não atualizou os arquivos esperados. Verifique a automação.",
+                        "erro",
+                        bg_color="#2b2b2b"
+                    )
+                )
 
             self.after(0, self.carregar_monitoramentos)
 
         except Exception as e:
-            erro = str(e)
-
             self.after(
                 0,
                 lambda: self.app.notificar(
-                    erro,
+                    str(e),
                     "erro",
-                    tempo=5000
+                    tempo=5000,
+                    bg_color="#2b2b2b"
                 )
             )
                 

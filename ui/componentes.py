@@ -28,12 +28,12 @@ class CardRotina(ctk.CTkFrame):
         else:
             proximo_prazo = "-"
         
+        # Define Status da Rotina como atualizado ou atrasado 
         if arquivos:
-            arquivo = arquivos[0]
-
-            status = arquivo["status"]
-            nome_arquivo = arquivo["arquivo"]
-            data_modificacao = arquivo["data_modificacao"]
+            if all(arquivo["status"] == "Atualizado" for arquivo in arquivos):
+                status = "● Atualizado"
+            else:
+                status = "● Atrasado"
         else:
             status = "⚠ Sem monitoramentos"
             nome_arquivo = "-"
@@ -210,18 +210,15 @@ class CardRotinaInativa(ctk.CTkFrame):
         quantidade = resultado["monitoramentos"]
         arquivos = resultado["arquivos"]
         periodicidade = resultado["periodicidade"]
+        
 
         if arquivos:
-            arquivo = arquivos[0]
-
-            status = arquivo["status"]
-            nome_arquivo = arquivo["arquivo"]
-            data_modificacao = arquivo["data_modificacao"]
-
+            if all(arquivo["status"] == "Atualizado" for arquivo in arquivos):
+                status = "Atualizado"
+            else:
+                status = "Atrasado"
         else:
-            status = "⚪ Sem monitoramentos"
-            nome_arquivo = "-"
-            data_modificacao = "-"
+            status = "Sem monitoramentos"
 
         titulo = ctk.CTkLabel(
             self,
