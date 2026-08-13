@@ -16,7 +16,7 @@ class TelaPrincipal(ctk.CTkFrame):
 
         self.criar_widgets()
 
-
+    # Método que carrega as rotinas
     def carregar_rotinas(self):
 
         for widget in self.lista_rotinas.winfo_children():
@@ -24,10 +24,12 @@ class TelaPrincipal(ctk.CTkFrame):
 
         rotinas = listar_rotinas_ativas()
 
+        # Seções de Periodicidade
         frame_diarias = self.criar_secao("DIÁRIAS")
         frame_semanais = self.criar_secao("SEMANAIS")
         frame_mensais = self.criar_secao("MENSAIS")
 
+        # If que mostra texto caso não tenha rotinas cadastradas
         if not rotinas:
         
             ctk.CTkLabel(
@@ -46,6 +48,7 @@ class TelaPrincipal(ctk.CTkFrame):
 
             resultado = verificar_rotina(rotina["id"])
 
+            # Separação de rotinas para os frames dedicados segundo cada periodicidade
             if rotina["periodo"] == "DIARIO":
                 destino = frame_diarias
 
@@ -68,7 +71,8 @@ class TelaPrincipal(ctk.CTkFrame):
                 padx=10,
                 pady=10
             )
-
+        
+        # Definição de margem para cada frame de periodicidade
         if frame_diarias.winfo_children():
             frame_diarias.pack(fill="x", padx=10, pady=(0, 10))
 
@@ -78,10 +82,11 @@ class TelaPrincipal(ctk.CTkFrame):
         if frame_mensais.winfo_children():
             frame_mensais.pack(fill="x", padx=10, pady=(0, 10))
 
-
+    # Vai para tela de cadastro
     def abrir_cadastro(self):
         self.app.trocar_tela("cadastro")
         
+    # Vai para tela de editar
     def editar_rotina(self, id_rotina):
 
         self.app.trocar_tela(
@@ -89,9 +94,11 @@ class TelaPrincipal(ctk.CTkFrame):
             id_rotina=id_rotina
         )
         
+    # Vai para tela de inativas
     def abrir_inativas(self):
         self.app.trocar_tela("inativas")
 
+    # Vai para tela de detalhes da rotina
     def ver_detalhes(self, id_rotina):
 
         self.app.trocar_tela(
@@ -105,7 +112,7 @@ class TelaPrincipal(ctk.CTkFrame):
         topo = ctk.CTkFrame(self)
         topo.pack(fill="x", padx=15, pady=15)
 
-
+        # Título
         titulo = ctk.CTkLabel(
             topo,
             text="SEMMOFFO - ROTINAS",
@@ -118,7 +125,7 @@ class TelaPrincipal(ctk.CTkFrame):
             pady=15
         )
 
-
+        # Botão de Nova rotina
         botao_adicionar = ctk.CTkButton(
             topo,
             text="+ Nova Rotina",
@@ -134,6 +141,7 @@ class TelaPrincipal(ctk.CTkFrame):
             padx=10
         )
         
+        # Botão de rotinas inativas
         self.botao_inativas = ctk.CTkButton(
             topo,
             text="Rotinas Inativas",
@@ -145,8 +153,8 @@ class TelaPrincipal(ctk.CTkFrame):
         )
 
         self.botao_inativas.pack(side="right", padx=5)
+        
         self.atualizar_botao_inativas()
-
 
         self.lista_rotinas = ctk.CTkScrollableFrame(self)
 
