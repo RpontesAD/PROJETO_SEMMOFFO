@@ -4,7 +4,7 @@ from monitor import verificar_rotina
 from ui.componentes import CardRotinaInativa
 from ui.estilos import *
 
-
+# Classe da tela de rotinas inativas
 class TelaInativas(ctk.CTkFrame):
 
     def __init__(self, parent, app):
@@ -14,7 +14,7 @@ class TelaInativas(ctk.CTkFrame):
 
         self.criar_widgets()
 
-
+    # Carrega as rotinas inativas
     def carregar_rotinas(self):
 
         for widget in self.lista_rotinas.winfo_children():
@@ -39,7 +39,7 @@ class TelaInativas(ctk.CTkFrame):
                 pady=10
             )
 
-
+    # Método de voltar a tela principal
     def voltar(self):
         self.app.trocar_tela("principal")
 
@@ -48,7 +48,8 @@ class TelaInativas(ctk.CTkFrame):
 
         topo = ctk.CTkFrame(self)
         topo.pack(fill="x", padx=15, pady=15)
-
+        
+        # Botão de voltar
         ctk.CTkButton(
             topo,
             text="←",
@@ -57,6 +58,7 @@ class TelaInativas(ctk.CTkFrame):
             command=self.voltar
         ).pack(side="left", padx=15, pady=15)
 
+        # Título
         ctk.CTkLabel(
             topo,
             text="ROTINAS INATIVAS",
@@ -73,7 +75,8 @@ class TelaInativas(ctk.CTkFrame):
         )
 
         self.carregar_rotinas()
-        
+     
+    # Popup de confirmação de restauração da rotina   
     def confirmar_restauracao(self, id_rotina, nome):
 
         janela = ctk.CTkToplevel(self)
@@ -116,6 +119,7 @@ class TelaInativas(ctk.CTkFrame):
             command=lambda: self.restaurar(id_rotina, janela)
         ).pack(side="left", padx=8)
         
+    # Método de restaurar a rotina
     def restaurar(self, id_rotina, janela):
 
         restaurar_rotina(id_rotina)
@@ -124,6 +128,7 @@ class TelaInativas(ctk.CTkFrame):
 
         self.carregar_rotinas()
         
+    # Popup de confirmar a exclusão
     def confirmar_exclusao(self, id_rotina, nome):
 
         janela = ctk.CTkToplevel(self)
@@ -157,6 +162,7 @@ class TelaInativas(ctk.CTkFrame):
             justify="center"
         ).pack()
 
+        # Botões de cancelar e excluir 
         botoes = ctk.CTkFrame(janela, fg_color="#242424")
         botoes.pack(pady=20)
 
@@ -178,6 +184,7 @@ class TelaInativas(ctk.CTkFrame):
             command=lambda: self.excluir(id_rotina, janela)
         ).pack(side="left", padx=8)
         
+    # Método de excluir permanentemente a rotina
     def excluir(self, id_rotina, janela):
 
         excluir_rotina(id_rotina)

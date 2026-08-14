@@ -6,7 +6,7 @@ from ui.componentes import JanelaConfirmacao
 from ui.componentes import CardRotina
 from monitor import verificar_rotina
 
-
+# Classe da tela principal
 class TelaPrincipal(ctk.CTkFrame):
 
     def __init__(self, parent, app):
