@@ -112,7 +112,7 @@ class TelaPrincipal(ctk.CTkFrame):
         topo = ctk.CTkFrame(self)
         topo.pack(fill="x", padx=15, pady=15)
 
-        # Título
+        # Definição do texto Título
         titulo = ctk.CTkLabel(
             topo,
             text="SEMMOFFO - ROTINAS",
@@ -167,7 +167,8 @@ class TelaPrincipal(ctk.CTkFrame):
 
 
         self.carregar_rotinas()
-    
+        
+    # Popup de confirmação de para inativar rotina
     def confirmar_inativacao(self, id_rotina, nome):
 
         JanelaConfirmacao(
@@ -182,6 +183,7 @@ class TelaPrincipal(ctk.CTkFrame):
             callback_confirmar=lambda: self.inativar_rotina(id_rotina)
         )
         
+    # Inativa a rotina
     def inativar_rotina(self, id_rotina):
 
         db_inativar_rotina(id_rotina)
@@ -195,6 +197,7 @@ class TelaPrincipal(ctk.CTkFrame):
         self.carregar_rotinas()
         self.atualizar_botao_inativas()
         
+    # Mostra o numero de rotinas inativas dentro do botão de inativas    
     def atualizar_botao_inativas(self):
 
         total = contar_rotinas_inativas()
