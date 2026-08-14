@@ -9,7 +9,7 @@ import threading
 import os
 from tkinter import messagebox
 
-
+# Documentar tela de detalhes PRÓXIMA DOCUMENTAÇÃO
 class TelaDetalhes(ctk.CTkFrame):
 
     def __init__(self, parent, app, id_rotina):
